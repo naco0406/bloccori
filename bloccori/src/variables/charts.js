@@ -258,7 +258,7 @@ export const lineChartDataTotalSpent = [
   },
   {
     name: "Profit",
-    data: [30, 40, 24, 46, 20, 46],
+    data: [10, 20, 30, 40, 50, 60],
   },
 ];
 
