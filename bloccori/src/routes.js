@@ -7,6 +7,7 @@ import {
   MdHome,
   MdLock,
   MdOutlineShoppingCart,
+  MdOutlineCloudUpload,
 } from "react-icons/md";
 
 // Admin Imports
@@ -14,6 +15,7 @@ import MainDashboard from "views/admin/default";
 import NFTMarketplace from "views/admin/marketplace";
 import Profile from "views/admin/profile";
 import DataTables from "views/admin/dataTables";
+import DataInput from "views/admin/dataInput";
 // import RTL from "views/admin/rtl";
 
 // Auth Imports
@@ -56,6 +58,13 @@ const routes = [
     icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
     component: Profile,
   },
+  {
+      name: "Data Input",
+      layout: "/admin",
+      path: "/input",
+      icon: <Icon as={MdOutlineCloudUpload} width='20px' height='20px' color='inherit' />,
+      component: DataInput,
+  }
   // {
   //   name: "Sign In",
   //   layout: "/auth",

@@ -48,8 +48,19 @@ export default function Footer() {
             Simmmple!
           </Link>
         </Text>
+        <Text as='span' fontWeight='500' ms='4px'>
+          Made with love by
+          <Link
+            mx='3px'
+            color={textColor}
+            href='https://www.simmmple.com'
+            target='_blank'
+            fontWeight='700'>
+            Simmmple!
+          </Link>
+        </Text>
       </Text>
-      <List display='flex'>
+      {/* <List display='flex'>
         <ListItem
           me={{
             base: "20px",
@@ -94,7 +105,7 @@ export default function Footer() {
             Blog
           </Link>
         </ListItem>
-      </List>
+      </List> */}
     </Flex>
   );
 }
