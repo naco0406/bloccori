@@ -31,8 +31,6 @@ import {
   SimpleGrid,
   useColorModeValue,
 } from "@chakra-ui/react";
-import Web3 from "web3";
-import {useState, useEffect} from 'react';
 // Assets
 import Usa from "assets/img/dashboards/usa.png";
 // Custom components
@@ -61,22 +59,7 @@ import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
 import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
 
 export default function UserReports() {
-  // 블록체인 start
-  const [account, setAccount] = useState('');
-  const web3 = new Web3(window.ethereum);  // 새로운 web3 객체를 만든다
-  const connectWallet = async () => {
-    let accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-    });
-
-    setAccount(accounts[0]);
-    console.log(account);
-    const wei = web3.eth.getBalance(accounts[0]);
-    //console.log(wei);
-  };
-
-  connectWallet();
-  // 블록체인 end
+  
 
   // Chakra Color Mode
   const brandColor = useColorModeValue("brand.500", "white");

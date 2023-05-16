@@ -47,6 +47,15 @@ import illustration from "assets/img/auth/auth.png";
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
+import { connectWallet, registerPrice, safeMint, registerJeonse, registerJeonip, setOpenDoor } from "../../../blockchaincontroller/blockcontrol";
+
+// 블록체인
+import Web3 from "web3";
+import {useState, useEffect} from 'react';
+import { ERC721ABI } from "../../../config/constants/abi";
+import { ERC721contract } from "../../../config/constants/contracts";
+import { Wallet } from "ethers";
+import WalletConnect from "@walletconnect/client";
 
 function SignIn() {
   // Chakra color mode
@@ -67,6 +76,37 @@ function SignIn() {
   );
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
+  let account = '';
+
+/*
+  // 블록체인 start
+  const [account, setAccount] = useState('');
+  const web3 = new Web3(window.ethereum);  // 새로운 web3 객체를 만든다
+  const connectWallet = async () => {
+    let accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+    });
+
+    setAccount(accounts[0]);
+    console.log(account);
+    const wei = web3.eth.getBalance(accounts[0]);
+    //console.log(wei);
+  };
+
+  connectWallet();
+  // 블록체인 end
+
+  function clicked() {
+    alert('hi');
+  }
+
+  let registerPriceContract = new web3.eth.Contract(ERC721ABI, ERC721contract);
+  async function registerPrice() {
+    await registerPriceContract.methods.registerTradePrice(0, 10000).send({from:account, gas:500000})
+  }
+  registerPrice();
+*/
+
   return (
     // <DefaultAuth illustrationBackground={illustration} image={illustration}>
       <Flex
@@ -211,6 +251,250 @@ function SignIn() {
               Sign In
             </Button>
           </FormControl>
+
+
+          {/* blockchain */}
+          <Button
+            onClick={async() => {account = await connectWallet()}}
+            fontSize='sm'
+            variant='brand'
+            fontWeight='500'
+            w='100%'
+            h='50'
+            mb='24px'>
+            wallet connect
+          </Button>
+
+          <FormControl>
+            <FormLabel
+              display='flex'
+              ms='4px'
+              fontSize='sm'
+              fontWeight='500'
+              color={textColor}
+              mb='8px'>
+              NFT Minting
+            </FormLabel>
+            <Input
+              id='mintNum'
+              isRequired={true}
+              variant='auth'
+              fontSize='sm'
+              ms={{ base: "0px", md: "0px" }}
+              placeholder='132'
+              mb='24px'
+              fontWeight='500'
+              size='lg'
+            />
+            
+            <Button
+              onClick={() => {safeMint(account, document.getElementById('mintNum').value);
+                console.log(account);
+                console.log(document.getElementById('mintNum').value);}}
+              fontSize='sm'
+              variant='brand'
+              fontWeight='500'
+              w='100%'
+              h='50'
+              mb='24px'>
+              Mint
+            </Button>
+          </FormControl>
+
+          {/* register price */}
+          <FormControl>
+            <FormLabel
+              display='flex'
+              ms='4px'
+              fontSize='sm'
+              fontWeight='500'
+              color={textColor}
+              mb='8px'>
+              register price
+            </FormLabel>
+            <Input
+              id='rpTokenId'
+              isRequired={true}
+              variant='auth'
+              fontSize='sm'
+              ms={{ base: "0px", md: "0px" }}
+              placeholder='132'
+              mb='24px'
+              fontWeight='500'
+              size='lg'
+            />
+            <Input
+              id='rpPrice'
+              isRequired={true}
+              variant='auth'
+              fontSize='sm'
+              ms={{ base: "0px", md: "0px" }}
+              placeholder='1000000'
+              mb='24px'
+              fontWeight='500'
+              size='lg'
+            />
+            
+            <Button
+              onClick={() => {registerPrice(document.getElementById('rpTokenId').value, document.getElementById('rpPrice').value)}}
+              fontSize='sm'
+              variant='brand'
+              fontWeight='500'
+              w='100%'
+              h='50'
+              mb='24px'>
+              register price
+            </Button>
+          </FormControl>
+
+          {/* register Jeonse */}
+          <FormControl>
+            <FormLabel
+              display='flex'
+              ms='4px'
+              fontSize='sm'
+              fontWeight='500'
+              color={textColor}
+              mb='8px'>
+              register Jeonse
+            </FormLabel>
+            <Input
+              id='rjTokenId'
+              isRequired={true}
+              variant='auth'
+              fontSize='sm'
+              ms={{ base: "0px", md: "0px" }}
+              placeholder='132'
+              mb='24px'
+              fontWeight='500'
+              size='lg'
+            />
+            <Input
+              id='rjAddress'
+              isRequired={true}
+              variant='auth'
+              fontSize='sm'
+              ms={{ base: "0px", md: "0px" }}
+              placeholder='0x5d122a75EdA3281f074e585124C0722FCD799C3d'
+              mb='24px'
+              fontWeight='500'
+              size='lg'
+            />
+            
+            <Button
+              onClick={() => {registerJeonse(document.getElementById('rjTokenId').value, document.getElementById('rjAddress').value);console.log(document.getElementById('rjTokenId').value); console.log(document.getElementById('rjAddress').value);}}
+              fontSize='sm'
+              variant='brand'
+              fontWeight='500'
+              w='100%'
+              h='50'
+              mb='24px'>
+              register Jeonse
+            </Button>
+          </FormControl>
+
+          {/* register Jeonip */}
+          <FormControl>
+            <FormLabel
+              display='flex'
+              ms='4px'
+              fontSize='sm'
+              fontWeight='500'
+              color={textColor}
+              mb='8px'>
+              register Jeonse
+            </FormLabel>
+            <Input
+              id='rjiTokenId'
+              isRequired={true}
+              variant='auth'
+              fontSize='sm'
+              ms={{ base: "0px", md: "0px" }}
+              placeholder='132'
+              mb='24px'
+              fontWeight='500'
+              size='lg'
+            />
+            <Input
+              id='rjiAddress'
+              isRequired={true}
+              variant='auth'
+              fontSize='sm'
+              ms={{ base: "0px", md: "0px" }}
+              placeholder='1939291942'
+              mb='24px'
+              fontWeight='500'
+              size='lg'
+            />
+            
+            <Button
+              onClick={() => {registerJeonip(document.getElementById('rjiTokenId').value, document.getElementById('rjiAddress').value);
+            console.log(document.getElementById('rjiTokenId').value);
+            console.log(document.getElementById('rjiAddress').value);}}
+              fontSize='sm'
+              variant='brand'
+              fontWeight='500'
+              w='100%'
+              h='50'
+              mb='24px'>
+              register Jeonip
+            </Button>
+          </FormControl>
+
+          {/* register setOpenDoor */}
+          <FormControl>
+            <FormLabel
+              display='flex'
+              ms='4px'
+              fontSize='sm'
+              fontWeight='500'
+              color={textColor}
+              mb='8px'>
+              Set Open Door
+            </FormLabel>
+            <Input
+              id='sodTokenId'
+              isRequired={true}
+              variant='auth'
+              fontSize='sm'
+              ms={{ base: "0px", md: "0px" }}
+              placeholder='132'
+              mb='24px'
+              fontWeight='500'
+              size='lg'
+            />
+            <Input
+              id='sodTime'
+              isRequired={true}
+              variant='auth'
+              fontSize='sm'
+              ms={{ base: "0px", md: "0px" }}
+              placeholder='0x5d122a75EdA3281f074e585124C0722FCD799C3d'
+              mb='24px'
+              fontWeight='500'
+              size='lg'
+            />
+            
+            <Button
+              onClick={() => {setOpenDoor(document.getElementById('sodTokenId').value, document.getElementById('sodTime').value);}}
+              fontSize='sm'
+              variant='brand'
+              fontWeight='500'
+              w='100%'
+              h='50'
+              mb='24px'>
+              Set Open Door
+            </Button>
+          </FormControl>
+
+
+
+
+
+
+
+
+
           <Flex
             flexDirection='column'
             justifyContent='center'
