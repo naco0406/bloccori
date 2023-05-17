@@ -36,6 +36,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  SimpleGrid,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
@@ -109,6 +110,7 @@ function SignIn() {
 
   return (
     // <DefaultAuth illustrationBackground={illustration} image={illustration}>
+    <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap='20px' mb='20px'>
       <Flex
         maxW={{ base: "100%", md: "max-content" }}
         w='100%'
@@ -516,6 +518,7 @@ function SignIn() {
           </Flex>
         </Flex>
       </Flex>
+    </SimpleGrid>
     // </DefaultAuth>
   );
 }

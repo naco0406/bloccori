@@ -38,18 +38,7 @@ export default function Footer() {
         {" "}
         &copy; {1900 + new Date().getYear()}
         <Text as='span' fontWeight='500' ms='4px'>
-          Horizon UI. All Rights Reserved. Made with love by
-          <Link
-            mx='3px'
-            color={textColor}
-            href='https://www.simmmple.com'
-            target='_blank'
-            fontWeight='700'>
-            Simmmple!
-          </Link>
-        </Text>
-        <Text as='span' fontWeight='500' ms='4px'>
-          Made with love by
+          BlocCoRI. All Rights Reserved. Made with 
           <Link
             mx='3px'
             color={textColor}
