@@ -48,7 +48,8 @@ import illustration from "assets/img/auth/auth.png";
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
-import { connectWallet, registerPrice, safeMint, registerJeonse, registerJeonip, setOpenDoor } from "../../../blockchaincontroller/blockcontrol";
+import { connectWallet, registerPrice, safeMint, registerJeonse, registerJeonip, setOpenDoor, getPriceOf, getJeonipOf, 
+  getJeonseOf, get_open_door } from "../../../blockchaincontroller/blockcontrol";
 
 // 블록체인
 import Web3 from "web3";
@@ -78,6 +79,7 @@ function SignIn() {
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
   let account = '';
+
 
 /*
   // 블록체인 start
@@ -478,7 +480,8 @@ function SignIn() {
             />
             
             <Button
-              onClick={() => {setOpenDoor(document.getElementById('sodTokenId').value, document.getElementById('sodTime').value);}}
+              onClick={() => {setOpenDoor(document.getElementById('sodTokenId').value, document.getElementById('sodTime').value);}
+                }
               fontSize='sm'
               variant='brand'
               fontWeight='500'
