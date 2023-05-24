@@ -1,1 +1,1 @@
-export const ERC721contract = "0x9993D1B0F0e7C656233cfb7bA089C40C80DdD99a";
+export const ERC721contract = "0xCEE2ee56bB5f4aD06c3d3e93600D611aA8c8bD56";
