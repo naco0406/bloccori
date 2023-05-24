@@ -64,7 +64,7 @@ export default function Marketplace() {
   const [collection, setCollectionAddress] = useState("");
   const [NFTs, setNFTs] = useState([])
   const [fetchForCollection, setFetchForCollection]=useState(false)
-  const isClicked = 0;
+  
 
   const fetchNFTs = async() => {
     let nfts; 
@@ -95,28 +95,27 @@ export default function Marketplace() {
   }
 
   const fetchNFTsForCollection = async () => {
-    isClicked = 3;
     // if (collection.length) {
       var requestOptions = {
         method: 'GET'
       };
       const api_key = "rygC0xsI-P_GcTM-KHaoWoPfX_d4R66y"
-      const collection = "0x54086ec43fc23B1aA2fC50fD2F1CEEcA0a380447"
+      const collection = "0xcee2ee56bb5f4ad06c3d3e93600d611aa8c8bd56"
       const baseURL = `https://polygon-mainnet.g.alchemy.com/v2/${api_key}/getNFTsForCollection/`;
       const fetchURL = `${baseURL}?contractAddress=${collection}&withMetadata=${"true"}`;
       const nfts = await fetch(fetchURL, requestOptions).then(data => data.json())
       if (nfts) {
         console.log("NFTs in collection:", nfts)
         setNFTs(nfts.nfts)
-        isClicked = 1;
       }
-      isClicked = 2;
     // }
   }
 
   return (
+    
     <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
-      {/* Main Fields */}
+      {async () => {await fetchNFTsForCollection()}}
+      
       <Grid
         mb='20px'
         gridTemplateColumns={{ xl: "repeat(3, 1fr)", "2xl": "1fr 0.46fr" }}
@@ -142,26 +141,16 @@ export default function Marketplace() {
               {
                 NFTs.length && NFTs.map(nft => {
                   return (
-                    // <HistoryItem
-                    //   name={nft.title}
-                    //   author='By Young'
-                    //   date={nft.id.tokenId}
-                    //   image={nft.media[0].gateway}
-                    //   price={nft.description}
-                    // />
-                    <Text>
+                    <HistoryItem
                       name={nft.title}
-                      author='By Young'
-                      date={nft.id.tokenId}
+                      author={nft.metadata.owner}
+                      date={nft.metadata.attributes[2].value}
                       image={nft.media[0].gateway}
-                      price={nft.description}
-                    </Text>
+                      price={nft.metadata.price}
+                    />
                   )
                 })
               }
-            </div>
-            <div>
-                isClicked: {isClicked}
             </div>
             
           </Flex>
@@ -233,7 +222,6 @@ export default function Marketplace() {
           </Card>
         </Flex>
       </Grid>
-      {/* Delete Product */}
     </Box>
   );
 }

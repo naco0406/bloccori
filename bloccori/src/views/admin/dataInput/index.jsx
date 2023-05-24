@@ -259,7 +259,14 @@ function SignIn() {
         {/* blockchain */}
         <SimpleGrid columns={1} gap='20px' mb='20px'>
           <Button
-            onClick={async() => {account = await connectWallet()}}
+            onClick={async() => {
+              account = await connectWallet();
+              if (account && account.length > 20) {
+                document.getElementById("connect").innerHTML = "Connected";
+                document.getElementById("connect").disabled = true;
+              }
+            }}
+            id="connect"
             fontSize='sm'
             variant='brand'
             fontWeight='500'
