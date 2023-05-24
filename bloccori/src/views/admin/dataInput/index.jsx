@@ -510,6 +510,92 @@ function SignIn() {
           </FormControl>
         </SimpleGrid>
 
+
+        {/* 조회 */}
+        <SimpleGrid columns={1} gap='20px' mb='20px'>
+          <FormControl>
+            <FormLabel
+              display='flex'
+              ms='4px'
+              fontSize='sm'
+              fontWeight='500'
+              color={textColor}
+              mb='8px'>
+              Search Blockchain Jeonse Log
+            </FormLabel>
+            <Input
+              id='searchTokenId'
+              isRequired={true}
+              variant='auth'
+              fontSize='sm'
+              ms={{ base: "0px", md: "0px" }}
+              placeholder='132'
+              mb='24px'
+              fontWeight='500'
+              size='lg'
+            />
+            
+            <Button
+              onClick={async () => {
+                let price = await getPriceOf(document.getElementById('searchTokenId').value);
+                let jeonse = await getJeonseOf(document.getElementById('searchTokenId').value);
+                let jeonip = await getJeonipOf(document.getElementById('searchTokenId').value);
+                let door = await get_open_door(document.getElementById('searchTokenId').value);
+                
+                document.getElementById("nftPrice").innerHTML = "NFT Price : " + price;
+                document.getElementById("nftJeonse").innerHTML = "NFT Jeonse : " + jeonse;
+                document.getElementById("nftJeonip").innerHTML = "NFT Jeonip : " + jeonip;
+                document.getElementById("nftOpendoor").innerHTML = "NFT Open Door : " + door;
+            }}
+              fontSize='sm'
+              variant='brand'
+              fontWeight='500'
+              w='100%'
+              h='50'
+              mb='24px'>
+              Search Jeonse Info
+            </Button>
+          </FormControl>
+
+          <FormLabel
+              display='flex'
+              id='nftPrice'
+              ms='4px'
+              fontSize='sm'
+              fontWeight='500'
+              color={textColor}
+              mb='8px'>
+            </FormLabel>
+          <FormLabel
+              display='flex'
+              id='nftJeonse'
+              ms='4px'
+              fontSize='sm'
+              fontWeight='500'
+              color={textColor}
+              mb='8px'>
+            </FormLabel>
+          <FormLabel
+              display='flex'
+              id='nftJeonip'
+              ms='4px'
+              fontSize='sm'
+              fontWeight='500'
+              color={textColor}
+              mb='8px'>
+            </FormLabel>
+          <FormLabel
+              display='flex'
+              id='nftOpendoor'
+              ms='4px'
+              fontSize='sm'
+              fontWeight='500'
+              color={textColor}
+              mb='8px'>
+            </FormLabel>
+          {/* </SimpleGrid> */}
+        </SimpleGrid>
+
         {/* <Flex
           flexDirection='column'
           justifyContent='center'
@@ -529,6 +615,13 @@ function SignIn() {
             </NavLink>
           </Text>
         </Flex> */}
+        {async() => {
+          account = await connectWallet();
+          if (account && account.length > 20) {
+            document.getElementById("connect").innerHTML = "Connected";
+            document.getElementById("connect").disabled = true;
+          }
+        }}
       </Flex>
     </Flex>
     // </DefaultAuth>

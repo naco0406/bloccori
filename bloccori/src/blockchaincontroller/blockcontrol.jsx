@@ -60,6 +60,11 @@ export const get_open_door = async (tokenId) => {
   const res = await ERC721Contract.methods.get_open_door(tokenId).call();
   return res
 }
+
+export const getOwnerOf = async (tokenId) => {
+  const res = await ERC721Contract.methods.ownerOf(tokenId).call();
+  return res
+}
 /* 사용법
 getJeonipOf(0).then((res) => console.log(res));
 getJeonseOf(0).then((res) => console.log(res));
