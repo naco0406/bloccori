@@ -13,7 +13,7 @@ import IconBox from "components/icons/IconBox";
 import Menu from "components/menu/MainMenu";
 import React from "react";
 // Assets
-import { MdOutlineCloudDone } from "react-icons/md";
+import { MdWallet } from "react-icons/md";
 
 export default function Banner(props) {
   const { used, total } = props;
@@ -25,14 +25,14 @@ export default function Banner(props) {
   return (
     <Card mb={{ base: "0px", lg: "20px" }} align='center'>
       <Flex w='100%'>
-        <Menu ms='auto' />
+        {/* <Menu ms='auto' /> */}
       </Flex>
       <IconBox
         mx='auto'
         h='100px'
         w='100px'
         icon={
-          <Icon as={MdOutlineCloudDone} color={brandColor} h='46px' w='46px' />
+          <Icon as={MdWallet} color={brandColor} h='46px' w='46px' />
         }
         bg={box}
       />

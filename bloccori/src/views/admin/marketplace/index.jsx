@@ -20,7 +20,7 @@
 
 */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Chakra imports
 import {
@@ -48,10 +48,10 @@ import Nft3 from "assets/img/nfts/Nft3.png";
 import Nft4 from "assets/img/nfts/Nft4.png";
 import Nft5 from "assets/img/nfts/Nft5.png";
 import Nft6 from "assets/img/nfts/Nft6.png";
-import Avatar1 from "assets/img/avatars/avatar1.png";
-import Avatar2 from "assets/img/avatars/avatar2.png";
-import Avatar3 from "assets/img/avatars/avatar3.png";
-import Avatar4 from "assets/img/avatars/avatar4.png";
+// import Avatar1 from "assets/img/avatars/avatar1.png";
+// import Avatar2 from "assets/img/avatars/avatar2.png";
+// import Avatar3 from "assets/img/avatars/avatar3.png";
+// import Avatar4 from "assets/img/avatars/avatar4.png";
 import tableDataTopCreators from "views/admin/marketplace/variables/tableDataTopCreators.json";
 import { tableColumnsTopCreators } from "views/admin/marketplace/variables/tableColumnsTopCreators";
 
@@ -64,43 +64,43 @@ export default function Marketplace() {
   const [collection, setCollectionAddress] = useState("");
   const [NFTs, setNFTs] = useState([])
   const [fetchForCollection, setFetchForCollection]=useState(false)
+  const [APICall, setAPICall] = useState(false);
   
 
-  const fetchNFTs = async() => {
-    let nfts; 
-    console.log("fetching nfts");
-    const api_key = "rygC0xsI-P_GcTM-KHaoWoPfX_d4R66y"
-    const collection = "0x54086ec43fc23B1aA2fC50fD2F1CEEcA0a380447"
-    const baseURL = `https://polygon-mainnet.g.alchemy.com/v2/${api_key}/getNFTs/`;
+  // const fetchNFTs = async() => {
+  //   let nfts; 
+  //   console.log("fetching nfts");
+  //   const api_key = "rygC0xsI-P_GcTM-KHaoWoPfX_d4R66y"
+  //   const collection = "0x54086ec43fc23B1aA2fC50fD2F1CEEcA0a380447"
+  //   const baseURL = `https://polygon-mainnet.g.alchemy.com/v2/${api_key}/getNFTs/`;
     
-    var requestOptions = {
-        method: 'GET'
-      };
+  //   var requestOptions = {
+  //       method: 'GET'
+  //     };
     
-    if (!collection.length) {
+  //   if (!collection.length) {
     
-      const fetchURL = `${baseURL}?owner=${wallet}`;
+  //     const fetchURL = `${baseURL}?owner=${wallet}`;
 
-      nfts = await fetch(fetchURL, requestOptions).then(data => data.json())
-    } else {
-      console.log("fetching nfts for collection owned by address")
-      const fetchURL = `${baseURL}?owner=${wallet}&contractAddresses%5B%5D=${collection}`;
-      nfts= await fetch(fetchURL, requestOptions).then(data => data.json())
-    }
+  //     nfts = await fetch(fetchURL, requestOptions).then(data => data.json())
+  //   } else {
+  //     console.log("fetching nfts for collection owned by address")
+  //     const fetchURL = `${baseURL}?owner=${wallet}&contractAddresses%5B%5D=${collection}`;
+  //     nfts= await fetch(fetchURL, requestOptions).then(data => data.json())
+  //   }
 
-    if (nfts) {
-      console.log("nfts:", nfts)
-      setNFTs(nfts.ownedNfts)
-    }
-  }
+  //   if (nfts) {
+  //     console.log("nfts:", nfts)
+  //     setNFTs(nfts.ownedNfts)
+  //   }
+  // }
 
   const fetchNFTsForCollection = async () => {
-    // if (collection.length) {
       var requestOptions = {
         method: 'GET'
       };
       const api_key = "rygC0xsI-P_GcTM-KHaoWoPfX_d4R66y"
-      const collection = "0xcee2ee56bb5f4ad06c3d3e93600d611aa8c8bd56"
+      const collection = "0xDBcA65E7B262fFD6e56a46E2f708D3b7a3bdc5bF"
       const baseURL = `https://polygon-mainnet.g.alchemy.com/v2/${api_key}/getNFTsForCollection/`;
       const fetchURL = `${baseURL}?contractAddress=${collection}&withMetadata=${"true"}`;
       const nfts = await fetch(fetchURL, requestOptions).then(data => data.json())
@@ -108,13 +108,17 @@ export default function Marketplace() {
         console.log("NFTs in collection:", nfts)
         setNFTs(nfts.nfts)
       }
-    // }
   }
 
   return (
     
     <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
-      {async () => {await fetchNFTsForCollection()}}
+      {useEffect(() => {
+        if (!APICall) {
+          fetchNFTsForCollection()
+        }
+        setAPICall(true)
+      })}
       
       <Grid
         mb='20px'
@@ -127,16 +131,16 @@ export default function Marketplace() {
           <Banner />
           <Flex direction='column'>
             
-            <div>
-              {/* <input disabled={fetchForCollection} type={"text"} placeholder="Add your wallet address"></input>
+            {/* <div>
+              <input disabled={fetchForCollection} type={"text"} placeholder="Add your wallet address"></input>
               <input type={"text"} placeholder="Add the collection address"></input>
-              <label><input onChange={(e)=>{setFetchForCollection(e.target.checked)}} type={"checkbox"}></input>Fetch for collection</label> */}
+              <label><input onChange={(e)=>{setFetchForCollection(e.target.checked)}} type={"checkbox"}></input>Fetch for collection</label>
               <Button onClick={
                 () => {
                   fetchNFTsForCollection()
                 }
               }> Let's 12345! </Button>
-            </div>
+            </div> */}
             <div>
               {
                 NFTs.length && NFTs.map(nft => {

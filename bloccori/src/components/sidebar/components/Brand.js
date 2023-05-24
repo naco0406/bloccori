@@ -16,7 +16,7 @@ export function SidebarBrand() {
 
   return (
     <Flex align='center' direction='column'>
-      <BloccoriLogo h='26px' w='175px'/>
+      <BloccoriLogo h='26px' w='175px' my='32px' paddingLeft = '20px'/>
       {/* <HorizonLogo h='26px' w='175px' my='32px' color={logoColor} /> */}
       <HSeparator mb='20px' />
     </Flex>

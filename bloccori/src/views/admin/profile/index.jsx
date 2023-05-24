@@ -34,12 +34,36 @@ import Upload from "views/admin/profile/components/Upload";
 // Assets
 import banner from "assets/img/auth/banner.png";
 import avatar from "assets/img/avatars/avatar4.png";
-import React from "react";
+import HistoryItem from "views/admin/marketplace/components/HistoryItem";
+import React, { useEffect, useState } from "react";
 
 export default function Overview() {
+  const [NFTs, setNFTs] = useState([])
+  const [APICall, setAPICall] = useState(false);
+  const fetchNFTsForCollection = async () => {
+      var requestOptions = {
+        method: 'GET'
+      };
+      const api_key = "rygC0xsI-P_GcTM-KHaoWoPfX_d4R66y"
+      const collection = "0xDBcA65E7B262fFD6e56a46E2f708D3b7a3bdc5bF"
+      const baseURL = `https://polygon-mainnet.g.alchemy.com/v2/${api_key}/getNFTsForCollection/`;
+      const fetchURL = `${baseURL}?contractAddress=${collection}&withMetadata=${"true"}`;
+      const nfts = await fetch(fetchURL, requestOptions).then(data => data.json())
+      if (nfts) {
+        console.log("NFTs in collection:", nfts)
+        setNFTs(nfts.nfts)
+      }
+  }
+
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       {/* Main Fields */}
+      {useEffect(() => {
+        if (!APICall) {
+          fetchNFTsForCollection()
+        }
+        setAPICall(true)
+      })}
       <Grid
         templateColumns={{
           base: "1fr",
@@ -54,11 +78,11 @@ export default function Overview() {
           gridArea='1 / 1 / 2 / 2'
           banner={banner}
           avatar={avatar}
-          name='Adela Parkson'
-          job='Product Designer'
-          posts='17'
-          followers='9.7k'
-          following='274'
+          name='Seonghyun Yang'
+          job='Designer'
+          nfts='17'
+          totalAsset='9.7k'
+          // following='274'
         />
         <Storage
           gridArea={{ base: "2 / 1 / 3 / 2", lg: "1 / 2 / 2 / 3" }}
@@ -88,7 +112,28 @@ export default function Overview() {
           "2xl": "1fr",
         }}
         gap={{ base: "20px", xl: "20px" }}>
-        <Projects
+        <Grid>
+          <Grid>
+            {
+              NFTs.length && NFTs.map(nft => {
+                // let owner = await getOwnerOf(nft.tokenid);
+                // if (account == owner) { 
+                  
+                // }
+                return (
+                  <HistoryItem
+                    name={nft.title}
+                    author={nft.metadata.owner}
+                    date={nft.metadata.attributes[2].value}
+                    image={nft.media[0].gateway}
+                    price={nft.metadata.price}
+                  />
+                )
+              })
+            }
+          </Grid>
+        </Grid>
+        {/* <Projects
           gridArea='1 / 2 / 2 / 2'
           banner={banner}
           avatar={avatar}
@@ -97,7 +142,7 @@ export default function Overview() {
           posts='17'
           followers='9.7k'
           following='274'
-        />
+        /> */}
         <General
           gridArea={{ base: "2 / 1 / 3 / 2", lg: "1 / 2 / 2 / 3" }}
           minH='365px'

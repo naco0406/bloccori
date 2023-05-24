@@ -23,14 +23,14 @@ import DataInput from "views/admin/dataInput";
 
 const routes = [
   {
-    name: "Main Dashboard",
+    name: "Profile",
     layout: "/admin",
-    path: "/default",
-    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
-    component: MainDashboard,
+    path: "/profile",
+    icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
+    component: Profile,
   },
   {
-    name: "NFT Marketplace",
+    name: "NFT Gallery",
     layout: "/admin",
     path: "/nft-marketplace",
     icon: (
@@ -45,26 +45,26 @@ const routes = [
     secondary: true,
   },
   {
+      name: "Mint & Register",
+      layout: "/admin",
+      path: "/input",
+      icon: <Icon as={MdOutlineCloudUpload} width='20px' height='20px' color='inherit' />,
+      component: DataInput,
+  },
+  {
+    name: "Main Dashboard",
+    layout: "/admin",
+    path: "/default",
+    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
+    component: MainDashboard,
+  },
+  {
     name: "Data Tables",
     layout: "/admin",
     icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
     path: "/data-tables",
     component: DataTables,
   },
-  {
-    name: "Profile",
-    layout: "/admin",
-    path: "/profile",
-    icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
-    component: Profile,
-  },
-  {
-      name: "Data Input",
-      layout: "/admin",
-      path: "/input",
-      icon: <Icon as={MdOutlineCloudUpload} width='20px' height='20px' color='inherit' />,
-      component: DataInput,
-  }
   // {
   //   name: "Sign In",
   //   layout: "/auth",
