@@ -20,7 +20,7 @@
 
 */
 
-import React, { useState } from "react";
+import React from "react";
 
 // Chakra imports
 import {
@@ -59,61 +59,6 @@ export default function Marketplace() {
   // Chakra Color Mode
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const textColorBrand = useColorModeValue("brand.500", "white");
-
-  const [wallet, setWalletAddress] = useState("");
-  const [collection, setCollectionAddress] = useState("");
-  const [NFTs, setNFTs] = useState([])
-  const [fetchForCollection, setFetchForCollection]=useState(false)
-  const isClicked = 0;
-
-  const fetchNFTs = async() => {
-    let nfts; 
-    console.log("fetching nfts");
-    const api_key = "rygC0xsI-P_GcTM-KHaoWoPfX_d4R66y"
-    const collection = "0x54086ec43fc23B1aA2fC50fD2F1CEEcA0a380447"
-    const baseURL = `https://polygon-mainnet.g.alchemy.com/v2/${api_key}/getNFTs/`;
-    
-    var requestOptions = {
-        method: 'GET'
-      };
-    
-    if (!collection.length) {
-    
-      const fetchURL = `${baseURL}?owner=${wallet}`;
-
-      nfts = await fetch(fetchURL, requestOptions).then(data => data.json())
-    } else {
-      console.log("fetching nfts for collection owned by address")
-      const fetchURL = `${baseURL}?owner=${wallet}&contractAddresses%5B%5D=${collection}`;
-      nfts= await fetch(fetchURL, requestOptions).then(data => data.json())
-    }
-
-    if (nfts) {
-      console.log("nfts:", nfts)
-      setNFTs(nfts.ownedNfts)
-    }
-  }
-
-  const fetchNFTsForCollection = async () => {
-    isClicked = 3;
-    // if (collection.length) {
-      var requestOptions = {
-        method: 'GET'
-      };
-      const api_key = "rygC0xsI-P_GcTM-KHaoWoPfX_d4R66y"
-      const collection = "0x54086ec43fc23B1aA2fC50fD2F1CEEcA0a380447"
-      const baseURL = `https://polygon-mainnet.g.alchemy.com/v2/${api_key}/getNFTsForCollection/`;
-      const fetchURL = `${baseURL}?contractAddress=${collection}&withMetadata=${"true"}`;
-      const nfts = await fetch(fetchURL, requestOptions).then(data => data.json())
-      if (nfts) {
-        console.log("NFTs in collection:", nfts)
-        setNFTs(nfts.nfts)
-        isClicked = 1;
-      }
-      isClicked = 2;
-    // }
-  }
-
   return (
     <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
       {/* Main Fields */}
@@ -127,43 +72,164 @@ export default function Marketplace() {
           gridArea={{ xl: "1 / 1 / 2 / 3", "2xl": "1 / 1 / 2 / 2" }}>
           <Banner />
           <Flex direction='column'>
-            
-            <div>
-              {/* <input disabled={fetchForCollection} type={"text"} placeholder="Add your wallet address"></input>
-              <input type={"text"} placeholder="Add the collection address"></input>
-              <label><input onChange={(e)=>{setFetchForCollection(e.target.checked)}} type={"checkbox"}></input>Fetch for collection</label> */}
-              <Button onClick={
-                () => {
-                  fetchNFTsForCollection()
-                }
-              }> Let's 12345! </Button>
-            </div>
-            <div>
-              {
-                NFTs.length && NFTs.map(nft => {
-                  return (
-                    // <HistoryItem
-                    //   name={nft.title}
-                    //   author='By Young'
-                    //   date={nft.id.tokenId}
-                    //   image={nft.media[0].gateway}
-                    //   price={nft.description}
-                    // />
-                    <Text>
-                      name={nft.title}
-                      author='By Young'
-                      date={nft.id.tokenId}
-                      image={nft.media[0].gateway}
-                      price={nft.description}
-                    </Text>
-                  )
-                })
-              }
-            </div>
-            <div>
-                isClicked: {isClicked}
-            </div>
-            
+            <Flex
+              mt='45px'
+              mb='20px'
+              justifyContent='space-between'
+              direction={{ base: "column", md: "row" }}
+              align={{ base: "start", md: "center" }}>
+              <Text color={textColor} fontSize='2xl' ms='24px' fontWeight='700'>
+                Trending NFTs
+              </Text>
+              <Flex
+                align='center'
+                me='20px'
+                ms={{ base: "24px", md: "0px" }}
+                mt={{ base: "20px", md: "0px" }}>
+                <Link
+                  color={textColorBrand}
+                  fontWeight='500'
+                  me={{ base: "34px", md: "44px" }}
+                  to='#art'>
+                  Art
+                </Link>
+                <Link
+                  color={textColorBrand}
+                  fontWeight='500'
+                  me={{ base: "34px", md: "44px" }}
+                  to='#music'>
+                  Music
+                </Link>
+                <Link
+                  color={textColorBrand}
+                  fontWeight='500'
+                  me={{ base: "34px", md: "44px" }}
+                  to='#collectibles'>
+                  Collectibles
+                </Link>
+                <Link color={textColorBrand} fontWeight='500' to='#sports'>
+                  Sports
+                </Link>
+              </Flex>
+            </Flex>
+            <SimpleGrid columns={{ base: 1, md: 3 }} gap='20px'>
+              <NFT
+                name='Abstract Colors'
+                author='By Esthera Jackson'
+                bidders={[
+                  Avatar1,
+                  Avatar2,
+                  Avatar3,
+                  Avatar4,
+                  Avatar1,
+                  Avatar1,
+                  Avatar1,
+                  Avatar1,
+                ]}
+                image={Nft1}
+                currentbid='0.91 ETH'
+                download='#'
+              />
+              <NFT
+                name='ETH AI Brain'
+                author='By Nick Wilson'
+                bidders={[
+                  Avatar1,
+                  Avatar2,
+                  Avatar3,
+                  Avatar4,
+                  Avatar1,
+                  Avatar1,
+                  Avatar1,
+                  Avatar1,
+                ]}
+                image={Nft2}
+                currentbid='0.91 ETH'
+                download='#'
+              />
+              <NFT
+                name='Mesh Gradients '
+                author='By Will Smith'
+                bidders={[
+                  Avatar1,
+                  Avatar2,
+                  Avatar3,
+                  Avatar4,
+                  Avatar1,
+                  Avatar1,
+                  Avatar1,
+                  Avatar1,
+                ]}
+                image={Nft3}
+                currentbid='0.91 ETH'
+                download='#'
+              />
+            </SimpleGrid>
+            <Text
+              mt='45px'
+              mb='36px'
+              color={textColor}
+              fontSize='2xl'
+              ms='24px'
+              fontWeight='700'>
+              Recently Added
+            </Text>
+            <SimpleGrid
+              columns={{ base: 1, md: 3 }}
+              gap='20px'
+              mb={{ base: "20px", xl: "0px" }}>
+              <NFT
+                name='Swipe Circles'
+                author='By Peter Will'
+                bidders={[
+                  Avatar1,
+                  Avatar2,
+                  Avatar3,
+                  Avatar4,
+                  Avatar1,
+                  Avatar1,
+                  Avatar1,
+                  Avatar1,
+                ]}
+                image={Nft4}
+                currentbid='0.91 ETH'
+                download='#'
+              />
+              <NFT
+                name='Colorful Heaven'
+                author='By Mark Benjamin'
+                bidders={[
+                  Avatar1,
+                  Avatar2,
+                  Avatar3,
+                  Avatar4,
+                  Avatar1,
+                  Avatar1,
+                  Avatar1,
+                  Avatar1,
+                ]}
+                image={Nft5}
+                currentbid='0.91 ETH'
+                download='#'
+              />
+              <NFT
+                name='3D Cubes Art'
+                author='By Manny Gates'
+                bidders={[
+                  Avatar1,
+                  Avatar2,
+                  Avatar3,
+                  Avatar4,
+                  Avatar1,
+                  Avatar1,
+                  Avatar1,
+                  Avatar1,
+                ]}
+                image={Nft6}
+                currentbid='0.91 ETH'
+                download='#'
+              />
+            </SimpleGrid>
           </Flex>
         </Flex>
         <Flex
