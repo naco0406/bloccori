@@ -21,7 +21,7 @@
 */
 
 // Chakra imports
-import { Box, Grid } from "@chakra-ui/react";
+import { Box, Grid, Text } from "@chakra-ui/react";
 
 // Custom components
 import Banner from "views/admin/profile/components/Banner";
@@ -36,11 +36,15 @@ import banner from "assets/img/auth/banner.png";
 import avatar from "assets/img/avatars/avatar4.png";
 import HistoryItem from "views/admin/marketplace/components/HistoryItem";
 import React, { useEffect, useState } from "react";
+import { getOwnerOf, connectWallet } from "../../../blockchaincontroller/blockcontrol";
 
 export default function Overview() {
+  
   const [NFTs, setNFTs] = useState([])
   const [APICall, setAPICall] = useState(false);
   const fetchNFTsForCollection = async () => {
+      let myWalletAddress;
+      myWalletAddress = await connectWallet();
       var requestOptions = {
         method: 'GET'
       };
@@ -50,9 +54,37 @@ export default function Overview() {
       const fetchURL = `${baseURL}?contractAddress=${collection}&withMetadata=${"true"}`;
       const nfts = await fetch(fetchURL, requestOptions).then(data => data.json())
       if (nfts) {
+        
+        for (let i = 0; i < nfts.nfts.length; i++) {
+          console.log("nft i:", i)
+          const nft = nfts.nfts[i]
+          let owner = await getOwnerOf(nft.id.tokenId);
+          console.log(typeof owner);
+          console.log(typeof myWalletAddress);
+
+          let myWalletAddressString = myWalletAddress.toString().toLowerCase();
+          let ownerString = owner.toString().toLowerCase();
+          console.log(typeof owner);
+          console.log(typeof myWalletAddress);
+          console.log(ownerString);
+          console.log(myWalletAddressString);
+          if (ownerString == myWalletAddressString) {
+            console.log("succ");
+            setNFTs(NFTs => [...NFTs, nft]);
+          } else {
+            console.log("fail ====");
+            // setNFTs(NFTs => [...NFTs, nft]);
+          }
+        }
         console.log("NFTs in collection:", nfts)
-        setNFTs(nfts.nfts)
+        //setNFTs(nfts.nfts)
       }
+      
+  }
+
+  const getMyWallet = async () => {
+    let myWalletAddress;
+    myWalletAddress = await connectWallet();
   }
 
   return (
@@ -61,6 +93,7 @@ export default function Overview() {
       {useEffect(() => {
         if (!APICall) {
           fetchNFTsForCollection()
+          //getMyWallet()
         }
         setAPICall(true)
       })}
@@ -82,7 +115,8 @@ export default function Overview() {
           job='Designer'
           nfts='17'
           totalAsset='9.7k'
-          // following='274'
+          following='3'
+          address={myWalletAddress}
         />
         <Storage
           gridArea={{ base: "2 / 1 / 3 / 2", lg: "1 / 2 / 2 / 3" }}
@@ -100,6 +134,27 @@ export default function Overview() {
         />
       </Grid>
       <Grid
+        gridArea='1 / 1 / 2 / 2'>
+        {
+          NFTs.length && NFTs.map(nft => {
+            
+            console.log("haha");
+            console.log(nft.id.tokenId);
+
+            return (
+              <HistoryItem
+                name={nft.title}
+                author={nft.metadata.owner}
+                date={nft.metadata.attributes[2].value}
+                image={nft.media[0].gateway}
+                price={nft.metadata.price}
+              />
+            )
+            
+          })
+        }
+      </Grid>
+      <Grid
         mb='20px'
         templateColumns={{
           base: "1fr",
@@ -112,27 +167,7 @@ export default function Overview() {
           "2xl": "1fr",
         }}
         gap={{ base: "20px", xl: "20px" }}>
-        <Grid>
-          <Grid>
-            {
-              NFTs.length && NFTs.map(nft => {
-                // let owner = await getOwnerOf(nft.tokenid);
-                // if (account == owner) { 
-                  
-                // }
-                return (
-                  <HistoryItem
-                    name={nft.title}
-                    author={nft.metadata.owner}
-                    date={nft.metadata.attributes[2].value}
-                    image={nft.media[0].gateway}
-                    price={nft.metadata.price}
-                  />
-                )
-              })
-            }
-          </Grid>
-        </Grid>
+        
         {/* <Projects
           gridArea='1 / 2 / 2 / 2'
           banner={banner}
