@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/bloccori/static/css/main.21215d26.css",
-    "main.js": "/bloccori/static/js/main.648a2958.js",
+    "main.js": "/bloccori/static/js/main.fa6cf5f7.js",
     "static/media/NftBanner1.png": "/bloccori/static/media/NftBanner1.87062366f75bedd52bd2.png",
     "static/media/Nft2.png": "/bloccori/static/media/Nft2.7897c45d2601ee3adfb5.png",
     "static/media/banner.png": "/bloccori/static/media/banner.80db2a895510dd2719aa.png",
@@ -18,10 +18,10 @@
     "static/media/logo_main.svg": "/bloccori/static/media/logo_main.e0bd755a35ca394861a0225506f4fa15.svg",
     "index.html": "/bloccori/index.html",
     "main.21215d26.css.map": "/bloccori/static/css/main.21215d26.css.map",
-    "main.648a2958.js.map": "/bloccori/static/js/main.648a2958.js.map"
+    "main.fa6cf5f7.js.map": "/bloccori/static/js/main.fa6cf5f7.js.map"
   },
   "entrypoints": [
     "static/css/main.21215d26.css",
-    "static/js/main.648a2958.js"
+    "static/js/main.fa6cf5f7.js"
   ]
 }
