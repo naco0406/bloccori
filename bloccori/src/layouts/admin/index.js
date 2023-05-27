@@ -115,6 +115,7 @@ export default function Dashboard(props) {
 
   const [cookies, setCookie] = useCookies(['connected']);
   setCookie('connected', false);
+  console.log(cookies.connected);
 
   return (
     <Box>
