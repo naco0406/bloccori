@@ -25,22 +25,26 @@ import { MdNotificationsNone, MdInfoOutline } from 'react-icons/md';
 import { FaEthereum } from 'react-icons/fa';
 import routes from 'routes.js';
 import { ThemeEditor } from './ThemeEditor';
+import { connectWallet } from "../../blockchaincontroller/blockcontrol";
+  
 export default function HeaderLinks(props) {
 	const { secondary } = props;
 	// Chakra Color Mode
 	const navbarIcon = useColorModeValue('gray.400', 'white');
-	let menuBg = useColorModeValue('white', 'navy.800');
+	let menuBg = useColorModeValue('white', 'green.800');
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
-	const textColorBrand = useColorModeValue('brand.700', 'brand.400');
+	const textColorBrand = useColorModeValue('gray.700', 'gray.400');
 	const ethColor = useColorModeValue('gray.700', 'white');
 	const borderColor = useColorModeValue('#E6ECFA', 'rgba(135, 140, 189, 0.3)');
-	const ethBg = useColorModeValue('secondaryGray.300', 'navy.900');
-	const ethBox = useColorModeValue('white', 'navy.800');
+	const ethBg = useColorModeValue('secondaryGray.300', 'green.900');
+	const ethBox = useColorModeValue('white', 'green.800');
 	const shadow = useColorModeValue(
 		'14px 17px 40px 4px rgba(112, 144, 176, 0.18)',
 		'14px 17px 40px 4px rgba(112, 144, 176, 0.06)'
 	);
 	const borderButton = useColorModeValue('secondaryGray.500', 'whiteAlpha.200');
+
+	let account = '';
 	return (
 		<Flex
 			w={{ sm: '100%', md: 'auto' }}
@@ -122,7 +126,7 @@ export default function HeaderLinks(props) {
 					{/* <Image src={navImage} borderRadius="16px" mb="28px" /> */}
 					<Flex flexDirection="column">
 						<Link w="100%" href="/">
-							<Button w="100%" h="44px" mb="10px" variant="brand">
+							<Button w="100%" h="44px" mb="10px"colorScheme='green' >
 								Null Button
 							</Button>
 						</Link>
@@ -149,7 +153,7 @@ export default function HeaderLinks(props) {
 			{/* <ThemeEditor navbarIcon={navbarIcon} /> */}
 
 			<Menu>
-				<MenuButton p="0px">
+				<MenuButton p="0px" id="profile_icon">
 					<Avatar
 						_hover={{ cursor: 'pointer' }}
 						color="white"
@@ -173,6 +177,7 @@ export default function HeaderLinks(props) {
 							fontWeight="700"
 							color={textColor}>
 							👋&nbsp; Hey, Young
+
 						</Text>
 					</Flex>
 					<Flex flexDirection="column" p="10px">
@@ -185,10 +190,26 @@ export default function HeaderLinks(props) {
 						<MenuItem
 							_hover={{ bg: 'none' }}
 							_focus={{ bg: 'none' }}
-							color="red.400"
 							borderRadius="8px"
 							px="14px">
-							<Text fontSize="sm">Log out</Text>
+							{/* <Text fontSize="sm">Log out</Text> */}
+							<Button
+								colorScheme='green'
+								onClick={async() => {
+									account = await connectWallet();
+									if (account && account.length > 20) {
+									document.getElementById("icon_connect").innerHTML = "Connected";
+									}
+								}}
+								id="icon_connect"
+								fontSize='sm'
+								// variant='green'
+								fontWeight='500'
+								w='100%'
+								h='50'
+								mb='24px'>
+								Wallet Connect
+							</Button>
 						</MenuItem>
 					</Flex>
 				</MenuList>

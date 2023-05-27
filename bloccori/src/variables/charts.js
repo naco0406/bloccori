@@ -273,10 +273,10 @@ export const lineChartOptionsTotalSpent = {
       left: 0,
       blur: 10,
       opacity: 0.1,
-      color: "#4318FF",
+      color: "#2C7538",
     },
   },
-  colors: ["#4318FF", "#39B8FF"],
+  colors: ["#2C7538", "#64AB4D"],
   markers: {
     size: 0,
     colors: "white",

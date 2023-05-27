@@ -38,6 +38,8 @@ import HistoryItem from "views/admin/marketplace/components/HistoryItem";
 import React, { useEffect, useState } from "react";
 import { getOwnerOf, connectWallet } from "../../../blockchaincontroller/blockcontrol";
 
+import PieCard from "views/admin/default/components/PieCard";
+
 export default function Overview() {
   
   const [NFTs, setNFTs] = useState([])
@@ -81,9 +83,8 @@ export default function Overview() {
       }
       
   }
-
+  let myWalletAddress = '';
   const getMyWallet = async () => {
-    let myWalletAddress;
     myWalletAddress = await connectWallet();
   }
 
@@ -93,7 +94,7 @@ export default function Overview() {
       {useEffect(() => {
         if (!APICall) {
           fetchNFTsForCollection()
-          //getMyWallet()
+          getMyWallet()
         }
         setAPICall(true)
       })}
@@ -116,25 +117,24 @@ export default function Overview() {
           nfts='17'
           totalAsset='9.7k'
           following='3'
-          address={myWalletAddress}
-        />
-        <Storage
-          gridArea={{ base: "2 / 1 / 3 / 2", lg: "1 / 2 / 2 / 3" }}
-          used={25.6}
-          total={50}
         />
         <Upload
-          gridArea={{
-            base: "3 / 1 / 4 / 2",
-            lg: "1 / 3 / 2 / 4",
-          }}
+          gridArea='1 / 2 / 2 / 4'
           minH={{ base: "auto", lg: "420px", "2xl": "365px" }}
           pe='20px'
           pb={{ base: "100px", lg: "20px" }}
         />
       </Grid>
-      <Grid
-        gridArea='1 / 1 / 2 / 2'>
+        
+      <Text
+        fontWeight='bold'
+        textAlign='start'
+        fontSize='xl'
+        mt={{ base: "20px", "2xl": "50px" }}>
+        My NFTs
+      </Text>
+
+      <Grid>
         {
           NFTs.length && NFTs.map(nft => {
             
@@ -154,6 +154,14 @@ export default function Overview() {
           })
         }
       </Grid>
+
+
+      {/* <Grid
+        mb='20px'
+        gap={{ base: "20px", xl: "20px" }}>
+        <PieCard />
+      </Grid>
+
       <Grid
         mb='20px'
         templateColumns={{
@@ -168,7 +176,7 @@ export default function Overview() {
         }}
         gap={{ base: "20px", xl: "20px" }}>
         
-        {/* <Projects
+        <Projects
           gridArea='1 / 2 / 2 / 2'
           banner={banner}
           avatar={avatar}
@@ -177,7 +185,7 @@ export default function Overview() {
           posts='17'
           followers='9.7k'
           following='274'
-        /> */}
+        />
         <General
           gridArea={{ base: "2 / 1 / 3 / 2", lg: "1 / 2 / 2 / 3" }}
           minH='365px'
@@ -192,7 +200,7 @@ export default function Overview() {
             "2xl": "1 / 3 / 2 / 4",
           }}
         />
-      </Grid>
+      </Grid> */}
     </Box>
   );
 }

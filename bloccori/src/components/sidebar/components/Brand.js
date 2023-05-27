@@ -12,7 +12,7 @@ import { ReactComponent as BloccoriLogo } from 'assets/logo_main.svg';
 
 export function SidebarBrand() {
   //   Chakra color mode
-  let logoColor = useColorModeValue("navy.700", "white");
+  let logoColor = useColorModeValue("green.700", "white");
 
   return (
     <Flex align='center' direction='column'>

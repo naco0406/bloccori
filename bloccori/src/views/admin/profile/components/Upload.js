@@ -18,8 +18,9 @@ export default function Upload(props) {
   const { used, total, ...rest } = props;
   // Chakra Color Mode
   const textColorPrimary = useColorModeValue("secondaryGray.900", "white");
-  const brandColor = useColorModeValue("brand.500", "white");
+  const brandColor = useColorModeValue("green.500", "white");
   const textColorSecondary = "gray.400";
+  
   return (
     <Card {...rest} mb='20px' align='center' p='20px'>
       <Flex h='100%' direction={{ base: "column", "2xl": "row" }}>
@@ -37,7 +38,7 @@ export default function Upload(props) {
                 </Text>
               </Flex>
               <Text fontSize='sm' fontWeight='500' color='secondaryGray.500'>
-                PNG, JPG and GIF files are allowed
+                PNG, JPG and GIF files
               </Text>
             </Box>
           }
@@ -49,7 +50,7 @@ export default function Upload(props) {
             textAlign='start'
             fontSize='2xl'
             mt={{ base: "20px", "2xl": "50px" }}>
-            Complete your profile
+            Mint your NFT
           </Text>
           <Text
             color={textColorSecondary}
@@ -57,19 +58,21 @@ export default function Upload(props) {
             my={{ base: "auto", "2xl": "10px" }}
             mx='auto'
             textAlign='start'>
-            Stay on the pulse of distributed projects with an anline whiteboard
-            to plan, coordinate and discuss
+            Register your real estate as an NFT now and 
+            get access to a decentralized certificate of registry information
           </Text>
           <Flex w='100%'>
             <Button
+              colorScheme='green'
               me='100%'
               mb='50px'
               w='140px'
               minW='140px'
               mt={{ base: "20px", "2xl": "auto" }}
-              variant='brand'
-              fontWeight='500'>
-              Publish now
+              // variant='brand'
+              fontWeight='500'
+              onClick={() => {window.location.href='/bloccori/#/admin/dataInput'}}>
+              Mint now
             </Button>
           </Flex>
         </Flex>

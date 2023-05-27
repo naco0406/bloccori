@@ -21,14 +21,14 @@ import {
 } from "variables/charts";
 
 export default function TotalSpent(props) {
-  const { ...rest } = props;
+  const { currentPrice, lineChartData, ...rest } = props;
 
   // Chakra Color Mode
 
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const textColorSecondary = useColorModeValue("secondaryGray.600", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
-  const iconColor = useColorModeValue("brand.500", "white");
+  const iconColor = useColorModeValue("green.500", "white");
   const bgButton = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
   const bgHover = useColorModeValue(
     { bg: "secondaryGray.400" },
@@ -47,7 +47,7 @@ export default function TotalSpent(props) {
       mb='0px'
       {...rest}>
       <Flex justify='space-between' ps='0px' pe='20px' pt='5px'>
-        <Flex align='center' w='100%'>
+        {/* <Flex align='center' w='100%'>
           <Button
             bg={boxBg}
             fontSize='sm'
@@ -76,7 +76,7 @@ export default function TotalSpent(props) {
             {...rest}>
             <Icon as={MdBarChart} color={iconColor} w='24px' h='24px' />
           </Button>
-        </Flex>
+        </Flex> */}
       </Flex>
       <Flex w='100%' flexDirection={{ base: "column", lg: "row" }}>
         <Flex flexDirection='column' me='20px' mt='28px'>
@@ -86,7 +86,7 @@ export default function TotalSpent(props) {
             textAlign='start'
             fontWeight='700'
             lineHeight='100%'>
-            $37.5K
+            {currentPrice}
           </Text>
           <Flex align='center' mb='20px'>
             <Text
@@ -95,7 +95,7 @@ export default function TotalSpent(props) {
               fontWeight='500'
               mt='4px'
               me='12px'>
-              Total Spent
+              Current Price
             </Text>
             <Flex align='center'>
               <Icon as={RiArrowUpSFill} color='green.500' me='2px' mt='2px' />
@@ -114,7 +114,8 @@ export default function TotalSpent(props) {
         </Flex>
         <Box minH='260px' minW='75%' mt='auto'>
           <LineChart
-            chartData={lineChartDataTotalSpent}
+            // chartData={lineChartDataTotalSpent}
+            chartData={lineChartData}
             chartOptions={lineChartOptionsTotalSpent}
           />
         </Box>

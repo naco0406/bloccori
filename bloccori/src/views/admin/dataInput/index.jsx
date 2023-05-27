@@ -51,6 +51,7 @@ import { RiEyeCloseLine } from "react-icons/ri";
 import { connectWallet, registerPrice, safeMint, registerJeonse, registerJeonip, setOpenDoor, getPriceOf, getJeonipOf, 
   getJeonseOf, get_open_door } from "../../../blockchaincontroller/blockcontrol";
 
+import Card from "components/card/Card.js";
 // 블록체인
 import Web3 from "web3";
 import {useState, useEffect} from 'react';
@@ -61,13 +62,13 @@ import WalletConnect from "@walletconnect/client";
 
 function SignIn() {
   // Chakra color mode
-  const textColor = useColorModeValue("navy.700", "white");
+  const textColor = useColorModeValue("gray.700", "white");
   const textColorSecondary = "gray.400";
-  const textColorDetails = useColorModeValue("navy.700", "secondaryGray.600");
-  const textColorBrand = useColorModeValue("brand.500", "white");
-  const brandStars = useColorModeValue("brand.500", "brand.400");
+  const textColorDetails = useColorModeValue("green.700", "secondaryGray.600");
+  const textColorBrand = useColorModeValue("green.500", "white");
+  const brandStars = useColorModeValue("green.500", "green.400");
   const googleBg = useColorModeValue("secondaryGray.300", "whiteAlpha.200");
-  const googleText = useColorModeValue("navy.700", "white");
+  const googleText = useColorModeValue("green.700", "white");
   const googleHover = useColorModeValue(
     { bg: "gray.200" },
     { bg: "whiteAlpha.300" }
@@ -147,135 +148,27 @@ function SignIn() {
         mx={{ base: "auto", lg: "unset" }}
         me='auto'
         mb={{ base: "20px", md: "auto" }}>
-        {/* <Button
-          fontSize='sm'
-          me='0px'
-          mb='26px'
-          py='15px'
-          h='50px'
-          borderRadius='16px'
-          bg={googleBg}
-          color={googleText}
-          fontWeight='500'
-          _hover={googleHover}
-          _active={googleActive}
-          _focus={googleActive}>
-          <Icon as={FcGoogle} w='20px' h='20px' me='10px' />
-          Sign in with Google
-        </Button>
-        <Flex align='center' mb='25px'>
-          <HSeparator />
-          <Text color='gray.400' mx='14px'>
-            or
-          </Text>
-          <HSeparator />
-        </Flex> */}
-        {/* <FormControl>
-          <FormLabel
-            display='flex'
-            ms='4px'
-            fontSize='sm'
-            fontWeight='500'
-            color={textColor}
-            mb='8px'>
-            Email<Text color={brandStars}>*</Text>
-          </FormLabel>
-          <Input
-            isRequired={true}
-            variant='auth'
-            fontSize='sm'
-            ms={{ base: "0px", md: "0px" }}
-            type='email'
-            placeholder='mail@simmmple.com'
-            mb='24px'
-            fontWeight='500'
-            size='lg'
-          />
-          <FormLabel
-            ms='4px'
-            fontSize='sm'
-            fontWeight='500'
-            color={textColor}
-            display='flex'>
-            Password<Text color={brandStars}>*</Text>
-          </FormLabel>
-          <InputGroup size='md'>
-            <Input
-              isRequired={true}
-              fontSize='sm'
-              placeholder='Min. 8 characters'
-              mb='24px'
-              size='lg'
-              type={show ? "text" : "password"}
-              variant='auth'
-            />
-            <InputRightElement display='flex' alignItems='center' mt='4px'>
-              <Icon
-                color={textColorSecondary}
-                _hover={{ cursor: "pointer" }}
-                as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
-                onClick={handleClick}
-              />
-            </InputRightElement>
-          </InputGroup>
-          <Flex justifyContent='space-between' align='center' mb='24px'>
-            <FormControl display='flex' alignItems='center'>
-              <Checkbox
-                id='remember-login'
-                colorScheme='brandScheme'
-                me='10px'
-              />
-              <FormLabel
-                htmlFor='remember-login'
-                mb='0'
-                fontWeight='normal'
-                color={textColor}
-                fontSize='sm'>
-                Keep me logged in
-              </FormLabel>
-            </FormControl>
-            <NavLink to='/auth/forgot-password'>
-              <Text
-                color={textColorBrand}
-                fontSize='sm'
-                w='124px'
-                fontWeight='500'>
-                Forgot password?
-              </Text>
-            </NavLink>
-          </Flex>
-          <Button
-            fontSize='sm'
-            variant='brand'
-            fontWeight='500'
-            w='100%'
-            h='50'
-            mb='24px'>
-            Sign In
-          </Button>
-        </FormControl> */}
-
 
         {/* blockchain */}
-        <SimpleGrid columns={1} gap='20px' mb='20px'>
+        <Card>
           <Button
+            colorScheme='green'
             onClick={async() => {
               account = await connectWallet();
               if (account && account.length > 20) {
                 document.getElementById("connect").innerHTML = "Connected";
-                document.getElementById("connect").disabled = true;
               }
             }}
             id="connect"
             fontSize='sm'
-            variant='brand'
+            // variant='brand'
             fontWeight='500'
             w='100%'
             h='50'
             mb='24px'>
             Wallet Connect
           </Button>
-        </SimpleGrid>
+        </Card>
 
         <SimpleGrid columns={2} gap='20px' mb='20px'>
           <FormControl>
@@ -301,11 +194,12 @@ function SignIn() {
             />
             
             <Button
+              colorScheme='green'
               onClick={() => {safeMint(account, document.getElementById('mintNum').value);
                 console.log(account);
                 console.log(document.getElementById('mintNum').value);}}
               fontSize='sm'
-              variant='brand'
+              // variant='green'
               fontWeight='500'
               w='100%'
               h='50'
@@ -351,9 +245,10 @@ function SignIn() {
             />
             
             <Button
+              colorScheme='green'
               onClick={() => {registerPrice(document.getElementById('rpTokenId').value, document.getElementById('rpPrice').value)}}
               fontSize='sm'
-              variant='brand'
+              // variant='green'
               fontWeight='500'
               w='100%'
               h='50'
@@ -399,9 +294,10 @@ function SignIn() {
             />
             
             <Button
+              colorScheme='green'
               onClick={() => {registerJeonse(document.getElementById('rjTokenId').value, document.getElementById('rjAddress').value);console.log(document.getElementById('rjTokenId').value); console.log(document.getElementById('rjAddress').value);}}
               fontSize='sm'
-              variant='brand'
+              // variant='green'
               fontWeight='500'
               w='100%'
               h='50'
@@ -447,11 +343,12 @@ function SignIn() {
             />
             
             <Button
+              colorScheme='green'
               onClick={() => {registerJeonip(document.getElementById('rjiTokenId').value, document.getElementById('rjiAddress').value);
-            console.log(document.getElementById('rjiTokenId').value);
-            console.log(document.getElementById('rjiAddress').value);}}
+              console.log(document.getElementById('rjiTokenId').value);
+              console.log(document.getElementById('rjiAddress').value);}}
               fontSize='sm'
-              variant='brand'
+              // variant='green'
               fontWeight='500'
               w='100%'
               h='50'
@@ -497,10 +394,11 @@ function SignIn() {
             />
             
             <Button
+              colorScheme='green'
               onClick={() => {setOpenDoor(document.getElementById('sodTokenId').value, document.getElementById('sodTime').value);}
                 }
               fontSize='sm'
-              variant='brand'
+              // variant='green'
               fontWeight='500'
               w='100%'
               h='50'
@@ -536,6 +434,7 @@ function SignIn() {
             />
             
             <Button
+              colorScheme='green'
               onClick={async () => {
                 let price = await getPriceOf(document.getElementById('searchTokenId').value);
                 let jeonse = await getJeonseOf(document.getElementById('searchTokenId').value);
@@ -548,7 +447,7 @@ function SignIn() {
                 document.getElementById("nftOpendoor").innerHTML = "NFT Open Door : " + door;
             }}
               fontSize='sm'
-              variant='brand'
+              // variant='green'
               fontWeight='500'
               w='100%'
               h='50'

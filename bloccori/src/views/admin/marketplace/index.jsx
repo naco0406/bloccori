@@ -20,7 +20,7 @@
 
 */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, } from "react";
 
 // Chakra imports
 import {
@@ -32,6 +32,14 @@ import {
   Text,
   useColorModeValue,
   SimpleGrid,
+  Modal,
+  useDisclosure,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 
 // Custom components
@@ -40,6 +48,7 @@ import TableTopCreators from "views/admin/marketplace/components/TableTopCreator
 import HistoryItem from "views/admin/marketplace/components/HistoryItem";
 import NFT from "components/card/NFT";
 import Card from "components/card/Card.js";
+import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 
 // Assets
 import Nft1 from "assets/img/nfts/Nft1.png";
@@ -58,7 +67,7 @@ import { tableColumnsTopCreators } from "views/admin/marketplace/variables/table
 export default function Marketplace() {
   // Chakra Color Mode
   const textColor = useColorModeValue("secondaryGray.900", "white");
-  const textColorBrand = useColorModeValue("brand.500", "white");
+  const textColorBrand = useColorModeValue("green.500", "white");
 
   const [wallet, setWalletAddress] = useState("");
   const [collection, setCollectionAddress] = useState("");
@@ -110,6 +119,8 @@ export default function Marketplace() {
       }
   }
 
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
   return (
     
     <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
@@ -131,16 +142,6 @@ export default function Marketplace() {
           <Banner />
           <Flex direction='column'>
             
-            {/* <div>
-              <input disabled={fetchForCollection} type={"text"} placeholder="Add your wallet address"></input>
-              <input type={"text"} placeholder="Add the collection address"></input>
-              <label><input onChange={(e)=>{setFetchForCollection(e.target.checked)}} type={"checkbox"}></input>Fetch for collection</label>
-              <Button onClick={
-                () => {
-                  fetchNFTsForCollection()
-                }
-              }> Let's 12345! </Button>
-            </div> */}
             <div>
               {
                 NFTs.length && NFTs.map(nft => {
@@ -152,6 +153,7 @@ export default function Marketplace() {
                       image={nft.media[0].gateway}
                       price={nft.metadata.price}
                     />
+                  
                   )
                 })
               }
@@ -162,12 +164,12 @@ export default function Marketplace() {
         <Flex
           flexDirection='column'
           gridArea={{ xl: "1 / 3 / 2 / 4", "2xl": "1 / 2 / 2 / 3" }}>
-          <Card px='0px' mb='20px'>
+          {/* <Card px='0px' mb='20px'>
             <TableTopCreators
               tableData={tableDataTopCreators}
               columnsData={tableColumnsTopCreators}
             />
-          </Card>
+          </Card> */}
           <Card p='0px'>
             <Flex
               align={{ sm: "flex-start", lg: "center" }}
@@ -178,50 +180,43 @@ export default function Marketplace() {
               <Text color={textColor} fontSize='xl' fontWeight='600'>
                 History
               </Text>
-              <Button variant='action'>See all</Button>
+              <Button colorScheme='green'>See all</Button>
             </Flex>
 
             <HistoryItem
-              name='Colorful Heaven'
-              author='By Mark Benjamin'
-              date='30s ago'
+              name='JeonSe #931 : Seyeon Park View'
+              author='Young Ko'
+              date='83\u33a1'
               image={Nft5}
-              price='0.91 ETH'
+              price='680124.78 MATIC'
             />
             <HistoryItem
-              name='Abstract Colors'
-              author='By Esthera Jackson'
-              date='58s ago'
+              name='JeonSe #987 : Detatched House'
+              author='Yuri Jo'
+              date='295\u33a1'
               image={Nft1}
-              price='0.91 ETH'
+              price='1395127.76 MATIC'
             />
             <HistoryItem
-              name='ETH AI Brain'
-              author='By Nick Wilson'
-              date='1m ago'
+              name='JeonSe #562 : Seyeon Park View'
+              author='Byeonguk Lee'
+              date='83\u33a1'
               image={Nft2}
-              price='0.91 ETH'
+              price='680124.78 MATIC'
             />
             <HistoryItem
-              name='Swipe Circles'
-              author='By Peter Will'
-              date='1m ago'
+              name='JeonSe #610 : Seyeon Park View'
+              author='Seungchan Lee'
+              date='83\u33a1'
               image={Nft4}
-              price='0.91 ETH'
+              price='680124.78 MATIC'
             />
             <HistoryItem
-              name='Mesh Gradients '
-              author='By Will Smith'
-              date='2m ago'
+              name='JeonSe #953 : The Hill House - Building 102'
+              author='Minseo Lim'
+              date='42.56\u33a1'
               image={Nft3}
-              price='0.91 ETH'
-            />
-            <HistoryItem
-              name='3D Cubes Art'
-              author='By Manny Gates'
-              date='3m ago'
-              image={Nft6}
-              price='0.91 ETH'
+              price='408946.8 MATIC'
             />
           </Card>
         </Flex>

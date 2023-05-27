@@ -11,7 +11,7 @@ import React from "react";
 
 export default function SidebarDocs() {
   const bgColor = "linear-gradient(135deg, #868CFF 0%, #4318FF 100%)";
-  const borderColor = useColorModeValue("white", "navy.800");
+  const borderColor = useColorModeValue("white", "green.800");
 
   return (
     <Flex

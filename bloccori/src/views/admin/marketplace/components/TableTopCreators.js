@@ -40,7 +40,7 @@ function TopCreatorTable(props) {
   const { getTableProps, getTableBodyProps, headerGroups, page, prepareRow } =
     tableInstance;
 
-  const textColor = useColorModeValue("navy.700", "white");
+  const textColor = useColorModeValue("green.700", "white");
   const textColorSecondary = useColorModeValue("secondaryGray.600", "white");
 
   return (
