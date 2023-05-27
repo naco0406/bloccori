@@ -18,6 +18,7 @@ export const connectWallet = async () => {
   console.log(account);
   const wei = web3.eth.getBalance(accounts[0]);
   //console.log(wei);
+  process.env.WALLET_CONNECT = true;
   return account;
 };
 

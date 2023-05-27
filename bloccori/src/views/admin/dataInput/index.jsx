@@ -36,6 +36,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Grid,
   SimpleGrid,
   Text,
   useColorModeValue,
@@ -81,6 +82,12 @@ function SignIn() {
   const handleClick = () => setShow(!show);
   let account = '';
 
+  // if (window.accountAddress) {
+	// 	account = window.accountAddress;
+		// document.getElementById("connect").innerHTML = "Connected";
+	// 	document.getElementById("connect").disabled = true;
+	// }
+
 
 /*
   // 블록체인 start
@@ -110,21 +117,18 @@ function SignIn() {
   }
   registerPrice();
 */
+  
+  if (process.env.WALLET_CONNECT) {
+		document.getElementById("connect").innerHTML = "Connected";
+		document.getElementById("connect").disabled = true;
+	} else {
+		document.getElementById("connect").innerHTML = "Wallet Connect";
+		document.getElementById("connect").disabled = false;
+	}
 
   return (
     // <DefaultAuth illustrationBackground={illustration} image={illustration}>
-    <Flex
-      maxW={{ base: "100%", md: "max-content" }}
-      w='100%'
-      mx={{ base: "auto", lg: "0px" }}
-      me='auto'
-      h='100%'
-      alignItems='start'
-      justifyContent='center'
-      mb={{ base: "30px", md: "60px" }}
-      px={{ base: "25px", md: "0px" }}
-      mt={{ base: "40px", md: "14vh" }}
-      flexDirection='column'>
+    <Box pt={{ base: "130px", md: "80px", xl: "80px" }} grid-row-gap= '20px'>
       <Box me='auto'>
         <Heading color={textColor} fontSize='36px' mb='10px'>
           Data Input
@@ -138,382 +142,360 @@ function SignIn() {
           Mint and Register
         </Text>
       </Box>
-      <Flex
-        zIndex='2'
-        direction='column'
-        w={{ base: "100%", md: "50%" }}
-        maxW='100%'
-        background='transparent'
-        borderRadius='15px'
-        mx={{ base: "auto", lg: "unset" }}
-        me='auto'
-        mb={{ base: "20px", md: "auto" }}>
-
+      <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
         {/* blockchain */}
+        <Button
+          colorScheme='green'
+          onClick={async() => {
+            account = await connectWallet();
+            if (account && account.length > 20) {
+              document.getElementById("connect").innerHTML = "Connected";
+              document.getElementById("connect").disabled = true;
+            }
+          }}
+          id="connect"
+          fontSize='sm'
+          // variant='brand'
+          fontWeight='500'
+          w='100%'
+          h='50'
+          mb='24px'>
+          Wallet
+        </Button>
+        
+        
         <Card>
-          <Button
-            colorScheme='green'
-            onClick={async() => {
-              account = await connectWallet();
-              if (account && account.length > 20) {
-                document.getElementById("connect").innerHTML = "Connected";
-              }
-            }}
-            id="connect"
-            fontSize='sm'
-            // variant='brand'
-            fontWeight='500'
-            w='100%'
-            h='50'
-            mb='24px'>
-            Wallet Connect
-          </Button>
+          <SimpleGrid columns={2} gap='20px' mb='20px'>
+            <FormControl>
+              <FormLabel
+                display='flex'
+                ms='4px'
+                fontSize='sm'
+                fontWeight='500'
+                color={textColor}
+                mb='8px'>
+                NFT Minting
+              </FormLabel>
+              <Input
+                id='mintNum'
+                isRequired={true}
+                variant='auth'
+                fontSize='sm'
+                ms={{ base: "0px", md: "0px" }}
+                placeholder='NFT ID (Integer)'
+                mb='24px'
+                fontWeight='500'
+                size='lg'
+              />
+              
+              <Button
+                colorScheme='green'
+                onClick={() => {safeMint(account, document.getElementById('mintNum').value);
+                  console.log(account);
+                  console.log(document.getElementById('mintNum').value);}}
+                fontSize='sm'
+                // variant='green'
+                fontWeight='500'
+                w='100%'
+                h='50'
+                mb='24px'>
+                Mint
+              </Button>
+            </FormControl>
+
+
+          {/* register price */}
+            {/* </SimpleGrid><SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'> */}
+            <FormControl>
+              <FormLabel
+                display='flex'
+                ms='4px'
+                fontSize='sm'
+                fontWeight='500'
+                color={textColor}
+                mb='8px'>
+                Register Price
+              </FormLabel>
+              <Input
+                id='rpTokenId'
+                isRequired={true}
+                variant='auth'
+                fontSize='sm'
+                ms={{ base: "0px", md: "0px" }}
+                placeholder='NFT ID (Integer)'
+                mb='24px'
+                fontWeight='500'
+                size='lg'
+              />
+              <Input
+                id='rpPrice'
+                isRequired={true}
+                variant='auth'
+                fontSize='sm'
+                ms={{ base: "0px", md: "0px" }}
+                placeholder='Price (Integer, MATIC)'
+                mb='24px'
+                fontWeight='500'
+                size='lg'
+              />
+              
+              <Button
+                colorScheme='green'
+                onClick={() => {registerPrice(document.getElementById('rpTokenId').value, document.getElementById('rpPrice').value)}}
+                fontSize='sm'
+                // variant='green'
+                fontWeight='500'
+                w='100%'
+                h='50'
+                mb='24px'>
+                Register Price
+              </Button>
+            </FormControl>
+          </SimpleGrid>
         </Card>
-
-        <SimpleGrid columns={2} gap='20px' mb='20px'>
-          <FormControl>
-            <FormLabel
-              display='flex'
-              ms='4px'
-              fontSize='sm'
-              fontWeight='500'
-              color={textColor}
-              mb='8px'>
-              NFT Minting
-            </FormLabel>
-            <Input
-              id='mintNum'
-              isRequired={true}
-              variant='auth'
-              fontSize='sm'
-              ms={{ base: "0px", md: "0px" }}
-              placeholder='132'
-              mb='24px'
-              fontWeight='500'
-              size='lg'
-            />
-            
-            <Button
-              colorScheme='green'
-              onClick={() => {safeMint(account, document.getElementById('mintNum').value);
-                console.log(account);
-                console.log(document.getElementById('mintNum').value);}}
-              fontSize='sm'
-              // variant='green'
-              fontWeight='500'
-              w='100%'
-              h='50'
-              mb='24px'>
-              Mint
-            </Button>
-          </FormControl>
-
-
-         {/* register price */}
-          {/* </SimpleGrid><SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'> */}
-          <FormControl>
-            <FormLabel
-              display='flex'
-              ms='4px'
-              fontSize='sm'
-              fontWeight='500'
-              color={textColor}
-              mb='8px'>
-              register price
-            </FormLabel>
-            <Input
-              id='rpTokenId'
-              isRequired={true}
-              variant='auth'
-              fontSize='sm'
-              ms={{ base: "0px", md: "0px" }}
-              placeholder='132'
-              mb='24px'
-              fontWeight='500'
-              size='lg'
-            />
-            <Input
-              id='rpPrice'
-              isRequired={true}
-              variant='auth'
-              fontSize='sm'
-              ms={{ base: "0px", md: "0px" }}
-              placeholder='1000000'
-              mb='24px'
-              fontWeight='500'
-              size='lg'
-            />
-            
-            <Button
-              colorScheme='green'
-              onClick={() => {registerPrice(document.getElementById('rpTokenId').value, document.getElementById('rpPrice').value)}}
-              fontSize='sm'
-              // variant='green'
-              fontWeight='500'
-              w='100%'
-              h='50'
-              mb='24px'>
-              register price
-            </Button>
-          </FormControl>
-        </SimpleGrid>
+        
 
         {/* register Jeonse */}
-        <SimpleGrid columns={3} gap='20px' mb='20px'>
-          <FormControl>
-            <FormLabel
-              display='flex'
-              ms='4px'
-              fontSize='sm'
-              fontWeight='500'
-              color={textColor}
-              mb='8px'>
-              register Jeonse
-            </FormLabel>
-            <Input
-              id='rjTokenId'
-              isRequired={true}
-              variant='auth'
-              fontSize='sm'
-              ms={{ base: "0px", md: "0px" }}
-              placeholder='132'
-              mb='24px'
-              fontWeight='500'
-              size='lg'
-            />
-            <Input
-              id='rjAddress'
-              isRequired={true}
-              variant='auth'
-              fontSize='sm'
-              ms={{ base: "0px", md: "0px" }}
-              placeholder='0x5d122a75EdA3281f074e585124C0722FCD799C3d'
-              mb='24px'
-              fontWeight='500'
-              size='lg'
-            />
-            
-            <Button
-              colorScheme='green'
-              onClick={() => {registerJeonse(document.getElementById('rjTokenId').value, document.getElementById('rjAddress').value);console.log(document.getElementById('rjTokenId').value); console.log(document.getElementById('rjAddress').value);}}
-              fontSize='sm'
-              // variant='green'
-              fontWeight='500'
-              w='100%'
-              h='50'
-              mb='24px'>
-              register Jeonse
-            </Button>
-          </FormControl>
-          {/* </SimpleGrid> */}
+        <Card>
+          <SimpleGrid columns={3} gap='20px' mb='20px'>
+            <FormControl>
+              <FormLabel
+                display='flex'
+                ms='4px'
+                fontSize='sm'
+                fontWeight='500'
+                color={textColor}
+                mb='8px'>
+                Register Jeonse
+              </FormLabel>
+              <Input
+                id='rjTokenId'
+                isRequired={true}
+                variant='auth'
+                fontSize='sm'
+                ms={{ base: "0px", md: "0px" }}
+                placeholder='NFT ID (Integer)'
+                mb='24px'
+                fontWeight='500'
+                size='lg'
+              />
+              <Input
+                id='rjAddress'
+                isRequired={true}
+                variant='auth'
+                fontSize='sm'
+                ms={{ base: "0px", md: "0px" }}
+                placeholder='Wallet Address (Jeonse Contractor)'
+                mb='24px'
+                fontWeight='500'
+                size='lg'
+              />
+              
+              <Button
+                colorScheme='green'
+                onClick={() => {registerJeonse(document.getElementById('rjTokenId').value, document.getElementById('rjAddress').value);console.log(document.getElementById('rjTokenId').value); console.log(document.getElementById('rjAddress').value);}}
+                fontSize='sm'
+                // variant='green'
+                fontWeight='500'
+                w='100%'
+                h='50'
+                mb='24px'>
+                Register Jeonse
+              </Button>
+            </FormControl>
+            {/* </SimpleGrid> */}
 
-          {/* register Jeonip */}
-          {/* <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'> */}
-          <FormControl>
-            <FormLabel
-              display='flex'
-              ms='4px'
-              fontSize='sm'
-              fontWeight='500'
-              color={textColor}
-              mb='8px'>
-              register Jeonip
-            </FormLabel>
-            <Input
-              id='rjiTokenId'
-              isRequired={true}
-              variant='auth'
-              fontSize='sm'
-              ms={{ base: "0px", md: "0px" }}
-              placeholder='132'
-              mb='24px'
-              fontWeight='500'
-              size='lg'
-            />
-            <Input
-              id='rjiAddress'
-              isRequired={true}
-              variant='auth'
-              fontSize='sm'
-              ms={{ base: "0px", md: "0px" }}
-              placeholder='1939291942'
-              mb='24px'
-              fontWeight='500'
-              size='lg'
-            />
-            
-            <Button
-              colorScheme='green'
-              onClick={() => {registerJeonip(document.getElementById('rjiTokenId').value, document.getElementById('rjiAddress').value);
-              console.log(document.getElementById('rjiTokenId').value);
-              console.log(document.getElementById('rjiAddress').value);}}
-              fontSize='sm'
-              // variant='green'
-              fontWeight='500'
-              w='100%'
-              h='50'
-              mb='24px'>
-              register Jeonip
-            </Button>
-          </FormControl>
-          {/* </SimpleGrid> */}
+            {/* register Jeonip */}
+            {/* <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'> */}
+            <FormControl>
+              <FormLabel
+                display='flex'
+                ms='4px'
+                fontSize='sm'
+                fontWeight='500'
+                color={textColor}
+                mb='8px'>
+                Register Jeonip
+              </FormLabel>
+              <Input
+                id='rjiTokenId'
+                isRequired={true}
+                variant='auth'
+                fontSize='sm'
+                ms={{ base: "0px", md: "0px" }}
+                placeholder='NFT ID (Integer)'
+                mb='24px'
+                fontWeight='500'
+                size='lg'
+              />
+              <Input
+                id='rjiAddress'
+                isRequired={true}
+                variant='auth'
+                fontSize='sm'
+                ms={{ base: "0px", md: "0px" }}
+                placeholder='Wallet Address (Person who Jeonip)'
+                mb='24px'
+                fontWeight='500'
+                size='lg'
+              />
+              
+              <Button
+                colorScheme='green'
+                onClick={() => {registerJeonip(document.getElementById('rjiTokenId').value, document.getElementById('rjiAddress').value);
+                console.log(document.getElementById('rjiTokenId').value);
+                console.log(document.getElementById('rjiAddress').value);}}
+                fontSize='sm'
+                // variant='green'
+                fontWeight='500'
+                w='100%'
+                h='50'
+                mb='24px'>
+                Register Jeonip
+              </Button>
+            </FormControl>
+            {/* </SimpleGrid> */}
 
-          {/* register setOpenDoor */}
-          {/* <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'> */}
-          <FormControl>
-            <FormLabel
-              display='flex'
-              ms='4px'
-              fontSize='sm'
-              fontWeight='500'
-              color={textColor}
-              mb='8px'>
-              Set Open Door
-            </FormLabel>
-            <Input
-              id='sodTokenId'
-              isRequired={true}
-              variant='auth'
-              fontSize='sm'
-              ms={{ base: "0px", md: "0px" }}
-              placeholder='132'
-              mb='24px'
-              fontWeight='500'
-              size='lg'
-            />
-            <Input
-              id='sodTime'
-              isRequired={true}
-              variant='auth'
-              fontSize='sm'
-              ms={{ base: "0px", md: "0px" }}
-              placeholder='0x5d122a75EdA3281f074e585124C0722FCD799C3d'
-              mb='24px'
-              fontWeight='500'
-              size='lg'
-            />
-            
-            <Button
-              colorScheme='green'
-              onClick={() => {setOpenDoor(document.getElementById('sodTokenId').value, document.getElementById('sodTime').value);}
-                }
-              fontSize='sm'
-              // variant='green'
-              fontWeight='500'
-              w='100%'
-              h='50'
-              mb='24px'>
-              Set Open Door
-            </Button>
-          </FormControl>
-        </SimpleGrid>
+            {/* register setOpenDoor */}
+            {/* <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'> */}
+            <FormControl>
+              <FormLabel
+                display='flex'
+                ms='4px'
+                fontSize='sm'
+                fontWeight='500'
+                color={textColor}
+                mb='8px'>
+                Set Open Door
+              </FormLabel>
+              <Input
+                id='sodTokenId'
+                isRequired={true}
+                variant='auth'
+                fontSize='sm'
+                ms={{ base: "0px", md: "0px" }}
+                placeholder='NFT ID (Integer)'
+                mb='24px'
+                fontWeight='500'
+                size='lg'
+              />
+              <Input
+                id='sodTime'
+                isRequired={true}
+                variant='auth'
+                fontSize='sm'
+                ms={{ base: "0px", md: "0px" }}
+                placeholder='Unix Time Stamp (Integer)'
+                mb='24px'
+                fontWeight='500'
+                size='lg'
+              />
+              
+              <Button
+                colorScheme='green'
+                onClick={() => {setOpenDoor(document.getElementById('sodTokenId').value, document.getElementById('sodTime').value);}
+                  }
+                fontSize='sm'
+                // variant='green'
+                fontWeight='500'
+                w='100%'
+                h='50'
+                mb='24px'>
+                Set Open Door
+              </Button>
+            </FormControl>
+          </SimpleGrid>
+        </Card>
 
 
         {/* 조회 */}
-        <SimpleGrid columns={1} gap='20px' mb='20px'>
-          <FormControl>
+        <Card>
+          <SimpleGrid columns={1} gap='20px' mb='20px'>
+            <FormControl>
+              <FormLabel
+                display='flex'
+                ms='4px'
+                fontSize='sm'
+                fontWeight='500'
+                color={textColor}
+                mb='8px'>
+                Search Blockchain Jeonse Log
+              </FormLabel>
+              <Input
+                id='searchTokenId'
+                isRequired={true}
+                variant='auth'
+                fontSize='sm'
+                ms={{ base: "0px", md: "0px" }}
+                placeholder='NFT ID (Integer)'
+                mb='24px'
+                fontWeight='500'
+                size='lg'
+              />
+              
+              <Button
+                colorScheme='green'
+                onClick={async () => {
+                  let price = await getPriceOf(document.getElementById('searchTokenId').value);
+                  let jeonse = await getJeonseOf(document.getElementById('searchTokenId').value);
+                  let jeonip = await getJeonipOf(document.getElementById('searchTokenId').value);
+                  let door = await get_open_door(document.getElementById('searchTokenId').value);
+                  
+                  document.getElementById("nftPrice").innerHTML = "NFT Price : " + price;
+                  document.getElementById("nftJeonse").innerHTML = "NFT Jeonse : " + jeonse;
+                  document.getElementById("nftJeonip").innerHTML = "NFT Jeonip : " + jeonip;
+                  document.getElementById("nftOpendoor").innerHTML = "NFT Open Door : " + door;
+              }}
+                fontSize='sm'
+                // variant='green'
+                fontWeight='500'
+                w='100%'
+                h='50'
+                mb='24px'>
+                Search Jeonse Info
+              </Button>
+            </FormControl>
+
             <FormLabel
-              display='flex'
-              ms='4px'
-              fontSize='sm'
-              fontWeight='500'
-              color={textColor}
-              mb='8px'>
-              Search Blockchain Jeonse Log
+                display='flex'
+                id='nftPrice'
+                ms='4px'
+                fontSize='sm'
+                fontWeight='500'
+                color={textColor}
+                mb='8px'>
             </FormLabel>
-            <Input
-              id='searchTokenId'
-              isRequired={true}
-              variant='auth'
-              fontSize='sm'
-              ms={{ base: "0px", md: "0px" }}
-              placeholder='132'
-              mb='24px'
-              fontWeight='500'
-              size='lg'
-            />
-            
-            <Button
-              colorScheme='green'
-              onClick={async () => {
-                let price = await getPriceOf(document.getElementById('searchTokenId').value);
-                let jeonse = await getJeonseOf(document.getElementById('searchTokenId').value);
-                let jeonip = await getJeonipOf(document.getElementById('searchTokenId').value);
-                let door = await get_open_door(document.getElementById('searchTokenId').value);
-                
-                document.getElementById("nftPrice").innerHTML = "NFT Price : " + price;
-                document.getElementById("nftJeonse").innerHTML = "NFT Jeonse : " + jeonse;
-                document.getElementById("nftJeonip").innerHTML = "NFT Jeonip : " + jeonip;
-                document.getElementById("nftOpendoor").innerHTML = "NFT Open Door : " + door;
-            }}
-              fontSize='sm'
-              // variant='green'
-              fontWeight='500'
-              w='100%'
-              h='50'
-              mb='24px'>
-              Search Jeonse Info
-            </Button>
-          </FormControl>
+            <FormLabel
+                display='flex'
+                id='nftJeonse'
+                ms='4px'
+                fontSize='sm'
+                fontWeight='500'
+                color={textColor}
+                mb='8px'>
+              </FormLabel>
+            <FormLabel
+                display='flex'
+                id='nftJeonip'
+                ms='4px'
+                fontSize='sm'
+                fontWeight='500'
+                color={textColor}
+                mb='8px'>
+            </FormLabel>
+            <FormLabel
+                display='flex'
+                id='nftOpendoor'
+                ms='4px'
+                fontSize='sm'
+                fontWeight='500'
+                color={textColor}
+                mb='8px'>
+            </FormLabel>
+            {/* </SimpleGrid> */}
+          </SimpleGrid>
+        </Card>
 
-          <FormLabel
-              display='flex'
-              id='nftPrice'
-              ms='4px'
-              fontSize='sm'
-              fontWeight='500'
-              color={textColor}
-              mb='8px'>
-            </FormLabel>
-          <FormLabel
-              display='flex'
-              id='nftJeonse'
-              ms='4px'
-              fontSize='sm'
-              fontWeight='500'
-              color={textColor}
-              mb='8px'>
-            </FormLabel>
-          <FormLabel
-              display='flex'
-              id='nftJeonip'
-              ms='4px'
-              fontSize='sm'
-              fontWeight='500'
-              color={textColor}
-              mb='8px'>
-            </FormLabel>
-          <FormLabel
-              display='flex'
-              id='nftOpendoor'
-              ms='4px'
-              fontSize='sm'
-              fontWeight='500'
-              color={textColor}
-              mb='8px'>
-            </FormLabel>
-          {/* </SimpleGrid> */}
-        </SimpleGrid>
-
-        {/* <Flex
-          flexDirection='column'
-          justifyContent='center'
-          alignItems='start'
-          maxW='100%'
-          mt='0px'>
-          <Text color={textColorDetails} fontWeight='400' fontSize='14px'>
-            Not registered yet?
-            <NavLink to='/auth/sign-up'>
-              <Text
-                color={textColorBrand}
-                as='span'
-                ms='5px'
-                fontWeight='500'>
-                Create an Account
-              </Text>
-            </NavLink>
-          </Text>
-        </Flex> */}
         {async() => {
           account = await connectWallet();
           if (account && account.length > 20) {
@@ -521,8 +503,8 @@ function SignIn() {
             document.getElementById("connect").disabled = true;
           }
         }}
-      </Flex>
-    </Flex>
+      </Box>
+    </Box>
     // </DefaultAuth>
   );
 }

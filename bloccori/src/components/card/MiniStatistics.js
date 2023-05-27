@@ -1,6 +1,7 @@
 // Chakra imports
 // Chakra imports
 import {
+  Icon,
   Flex,
   Stat,
   StatLabel,
@@ -12,11 +13,19 @@ import {
 import Card from "components/card/Card.js";
 // Custom icons
 import React from "react";
+import { MdCheckCircle, MdCancel, MdOutlineError } from "react-icons/md";
+
+function circumference(r) {
+  return parseFloat(r) * 2.0 * Math.PI;
+}
+
 
 export default function Default(props) {
-  const { startContent, endContent, name, growth, value } = props;
+  const { startContent, endContent, name, growth, notification, value } = props;
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const textColorSecondary = "secondaryGray.600";
+
+  const exchange = Math.round(circumference(value)*0.92/1000);
 
   return (
     <Card py='15px'>
@@ -39,17 +48,36 @@ export default function Default(props) {
           <StatNumber
             color={textColor}
             fontSize={{
-              base: "2xl",
+              base: "xl",
             }}>
             {value}
           </StatNumber>
           {growth ? (
             <Flex align='center'>
+              <Text color='secondaryGray.600' fontSize='xs' fontWeight='400'>
+                ${exchange}K USD &nbsp;
+              </Text>
+              
               <Text color='green.500' fontSize='xs' fontWeight='700' me='5px'>
                 {growth}
               </Text>
-              <Text color='secondaryGray.600' fontSize='xs' fontWeight='400'>
-                since last month
+            </Flex>
+          ) : null}
+          {notification ? (
+            <Flex align='center'>
+              <Icon w='12px' h='12px' me='5px' color = 'green.500' as = {MdCheckCircle}/>
+              <Text color='green.500' fontSize='xs' fontWeight='400'>
+                {notification[0]} &nbsp;
+              </Text>
+              
+              <Icon w='12px' h='12px' me='5px' color = 'red.500' as = {MdCancel}/>
+              <Text color='red.500' fontSize='xs' fontWeight='400'>
+                 {notification[1]} &nbsp;
+              </Text>
+              
+              <Icon w='12px' h='12px' me='5px' color = 'orange.500' as = {MdOutlineError}/>
+              <Text color='orange.500' fontSize='xs' fontWeight='400'>
+                 {notification[2]}
               </Text>
             </Flex>
           ) : null}

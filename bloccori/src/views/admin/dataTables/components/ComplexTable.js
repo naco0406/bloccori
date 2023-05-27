@@ -65,7 +65,7 @@ export default function ColumnsTable(props) {
           fontSize='22px'
           fontWeight='700'
           lineHeight='100%'>
-          Complex Table
+          Project Status
         </Text>
         <Menu />
       </Flex>
@@ -98,7 +98,19 @@ export default function ColumnsTable(props) {
               <Tr {...row.getRowProps()} key={index}>
                 {row.cells.map((cell, index) => {
                   let data = "";
-                  if (cell.column.Header === "NAME") {
+                  if (cell.column.Header === "ID") {
+                    data = (
+                      <Text color={textColor} fontSize='sm' fontWeight='700'>
+                        {cell.value}
+                      </Text>
+                    );
+                  } else if (cell.column.Header === "NAME") {
+                    data = (
+                      <Text color={textColor} fontSize='sm' fontWeight='400'>
+                        {cell.value}
+                      </Text>
+                    );
+                  } else if (cell.column.Header === "DATE") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
                         {cell.value}
@@ -135,18 +147,12 @@ export default function ColumnsTable(props) {
                         </Text>
                       </Flex>
                     );
-                  } else if (cell.column.Header === "DATE") {
-                    data = (
-                      <Text color={textColor} fontSize='sm' fontWeight='700'>
-                        {cell.value}
-                      </Text>
-                    );
                   } else if (cell.column.Header === "PROGRESS") {
                     data = (
                       <Flex align='center'>
                         <Progress
                           variant='table'
-                          colorScheme='brandScheme'
+                          colorScheme='green'
                           h='8px'
                           w='108px'
                           value={cell.value}

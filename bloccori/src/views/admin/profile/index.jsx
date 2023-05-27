@@ -21,7 +21,27 @@
 */
 
 // Chakra imports
-import { Box, Grid, Text } from "@chakra-ui/react";
+import { 
+  Avatar,
+  Box,
+  Button,
+  Link,
+  Flex,
+  FormLabel,
+  Icon,
+  Select,
+  SimpleGrid,
+  useColorModeValue,
+  Grid,
+  Text,
+  Modal,
+  useDisclosure,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton, } from "@chakra-ui/react";
 
 // Custom components
 import Banner from "views/admin/profile/components/Banner";
@@ -30,6 +50,7 @@ import Notifications from "views/admin/profile/components/Notifications";
 import Projects from "views/admin/profile/components/Projects";
 import Storage from "views/admin/profile/components/Storage";
 import Upload from "views/admin/profile/components/Upload";
+import IconBox from "components/icons/IconBox";
 
 // Assets
 import banner from "assets/img/auth/banner.png";
@@ -38,10 +59,30 @@ import HistoryItem from "views/admin/marketplace/components/HistoryItem";
 import React, { useEffect, useState } from "react";
 import { getOwnerOf, connectWallet } from "../../../blockchaincontroller/blockcontrol";
 
+import MiniStatistics from "components/card/MiniStatistics";
 import PieCard from "views/admin/default/components/PieCard";
+import Card from "components/card/Card.js";
+import Matic from "assets/img/dashboards/matic.png";
+
+import {
+  MdAddTask,
+  MdAttachMoney,
+  MdBarChart,
+  MdFileCopy,
+} from "react-icons/md";
+
+import ComplexTable from "views/admin/dataTables/components/ComplexTable";
+import { columnsDataComplex } from "views/admin/dataTables/variables/columnsData";
+import tableDataComplex from "views/admin/dataTables/variables/tableDataComplex.json";
+
+
 
 export default function Overview() {
-  
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
+  const brandColor = useColorModeValue("green.500", "white");
+
   const [NFTs, setNFTs] = useState([])
   const [APICall, setAPICall] = useState(false);
   const fetchNFTsForCollection = async () => {
@@ -90,7 +131,107 @@ export default function Overview() {
 
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-      {/* Main Fields */}
+      
+      <SimpleGrid
+        columns={{ base: 1, md: 2, lg: 3, "2xl": 4 }}
+        gap='20px'
+        mb='20px'>
+        <MiniStatistics
+          // startContent={
+          //   <IconBox
+          //     w='56px'
+          //     h='56px'
+          //     bg={boxBg}
+          //     icon={
+          //       <Icon w='32px' h='32px' as={MdBarChart} color={brandColor} />
+          //     }
+          //   />
+          // }
+          growth='+3.8%'
+          name='Earnings'
+          value='193240 MATIC'
+        />
+        <MiniStatistics
+          // startContent={
+          //   <IconBox
+          //     w='56px'
+          //     h='56px'
+          //     bg={boxBg}
+          //     icon={
+          //       <Icon w='32px' h='32px' as={MdAttachMoney} color={brandColor} />
+          //     }
+          //   />
+          // }
+          growth='+1.4%'
+          name='Spend this month'
+          value='140000 MATIC'
+        />
+        {/* <MiniStatistics growth='+23%' name='Sales' value='$574.34' /> */}
+        <MiniStatistics
+          startContent={
+            <Flex me='-16px' mt='10px'>
+              <FormLabel htmlFor='balance'>
+                <Avatar src={Matic} />
+              </FormLabel>
+            </Flex>
+          }
+          growth='+23%'
+          name='Your balance'
+          value='4308 MATIC'
+        />
+        {/* <MiniStatistics
+          startContent={
+            <IconBox
+              w='56px'
+              h='56px'
+              bg='linear-gradient(90deg, #4481EB 0%, #04BEFE 100%)'
+              icon={<Icon w='28px' h='28px' as={MdAddTask} color='white' />}
+            />
+          }
+          name='New Tasks'
+          value='154'
+        /> */}
+        <Link onClick={onOpen}>
+          <MiniStatistics
+            startContent={
+              <IconBox
+                w='56px'
+                h='56px'
+                bg={boxBg}
+                icon={
+                  <Icon w='32px' h='32px' as={MdFileCopy} color={brandColor} />
+                }
+              />
+            }
+            notification={[3, 1, 1]}
+            name='Total Projects'
+            value='5'
+          />
+        </Link>
+        <Modal isOpen={isOpen} size={'full'}onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Certificate of Registry Information</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+
+              <ComplexTable
+                columnsData={columnsDataComplex}
+                tableData={tableDataComplex}
+              />
+              
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme='green' mr={3} onClick={onClose}>
+                Close
+              </Button>
+              {/* <Button variant='ghost'>Secondary Action</Button> */}
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </SimpleGrid>
+
       {useEffect(() => {
         if (!APICall) {
           fetchNFTsForCollection()
@@ -112,7 +253,7 @@ export default function Overview() {
           gridArea='1 / 1 / 2 / 2'
           banner={banner}
           avatar={avatar}
-          name='Seonghyun Yang'
+          name='Yuri Jo'
           job='Designer'
           nfts='17'
           totalAsset='9.7k'
@@ -125,35 +266,36 @@ export default function Overview() {
           pb={{ base: "100px", lg: "20px" }}
         />
       </Grid>
-        
-      <Text
-        fontWeight='bold'
-        textAlign='start'
-        fontSize='xl'
-        mt={{ base: "20px", "2xl": "50px" }}>
-        My NFTs
-      </Text>
 
-      <Grid>
-        {
-          NFTs.length && NFTs.map(nft => {
-            
-            console.log("haha");
-            console.log(nft.id.tokenId);
+      <Card>
+        <Text
+          fontWeight='bold'
+          textAlign='start'
+          fontSize='xl'>
+          My NFTs
+        </Text>
 
-            return (
-              <HistoryItem
-                name={nft.title}
-                author={nft.metadata.owner}
-                date={nft.metadata.attributes[2].value}
-                image={nft.media[0].gateway}
-                price={nft.metadata.price}
-              />
-            )
-            
-          })
-        }
-      </Grid>
+        <Grid>
+          {
+            NFTs.length && NFTs.map(nft => {
+              
+              console.log("haha");
+              console.log(nft.id.tokenId);
+
+              return (
+                <HistoryItem
+                  name={nft.title}
+                  author={nft.metadata.owner}
+                  date={nft.metadata.attributes[2].value}
+                  image={nft.media[0].gateway}
+                  price={nft.metadata.price}
+                />
+              )
+              
+            })
+          }
+        </Grid>
+      </Card>
 
 
       {/* <Grid
