@@ -26,9 +26,12 @@ import { FaEthereum } from 'react-icons/fa';
 import routes from 'routes.js';
 import { ThemeEditor } from './ThemeEditor';
 import { connectWallet } from "../../blockchaincontroller/blockcontrol";
+
+import { useState, useEffect } from 'react';
   
 export default function HeaderLinks(props) {
 	const { secondary } = props;
+	const [APICall, setAPICall] = useState(false);
 	// Chakra Color Mode
 	const navbarIcon = useColorModeValue('gray.400', 'white');
 	let menuBg = useColorModeValue('white', 'green.800');
@@ -45,6 +48,15 @@ export default function HeaderLinks(props) {
 	const borderButton = useColorModeValue('secondaryGray.500', 'whiteAlpha.200');
 
 	let account = '';
+
+	let myWalletAddress = '';
+	const getMyWallet = async () => {
+		myWalletAddress = await connectWallet();
+		if(myWalletAddress.length > 20){
+			document.getElementById("icon_connect").innerHTML = "Wallet Connected";
+			document.getElementById("icon_connect").disabled = true;
+		}
+	}
 	return (
 		<Flex
 			w={{ sm: '100%', md: 'auto' }}
@@ -151,6 +163,12 @@ export default function HeaderLinks(props) {
 			</Menu>
 
 			{/* <ThemeEditor navbarIcon={navbarIcon} /> */}
+			{useEffect(() => {
+				if (!APICall) {
+				getMyWallet()
+				}
+				setAPICall(true)
+			})}
 
 			<Menu>
 				<MenuButton p="0px" id="profile_icon">
@@ -198,7 +216,8 @@ export default function HeaderLinks(props) {
 								onClick={async() => {
 									account = await connectWallet();
 									if (account && account.length > 20) {
-									document.getElementById("icon_connect").innerHTML = "Connected";
+									document.getElementById("icon_connect").innerHTML = "Wallet Connected";
+									document.getElementById("icon_connect").disabled = true;
 									}
 								}}
 								id="icon_connect"

@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react';
 import { ERC721ABI } from "../config/constants/abi";
 import { ERC721contract } from "../config/constants/contracts";
 import { useCookies } from 'react-cookie';
-import  CookieConnect from '../blockchaincontroller/CookieConnect';
+import  CookieConnect from '../blockchaincontroller/cookieConnect';
 
 const web3 = new Web3(window.ethereum);  // 새로운 web3 객체를 만든다
 let ERC721Contract = new web3.eth.Contract(ERC721ABI, ERC721contract);
@@ -22,7 +22,7 @@ export const connectWallet = async () => {
   console.log(account);
   const wei = web3.eth.getBalance(accounts[0]);
 
-  CookieConnect;
+  // CookieConnect();
   console.log("connected working");
   return account;
 };

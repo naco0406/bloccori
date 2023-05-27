@@ -82,20 +82,18 @@ function SignIn() {
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
   let account = '';
-  const [cookies, setCookie, removeCookie] = useCookies(['connected']);
-  const isConnected = cookies.connected;
 
-  if (isConnected == 'true') {
-		// document.getElementById("connect").innerHTML = "Connected";
-		// document.getElementById("connect").disabled = true;
-    console.log('isConnected');
-    console.log(isConnected);
-	} else {
-		// document.getElementById("connect").innerHTML = "Wallet Connect";
-		// document.getElementById("connect").disabled = false;
-    console.log('else');
-    console.log(isConnected);
+  const [APICall, setAPICall] = useState(false);
+
+  let myWalletAddress = '';
+	const getMyWallet = async () => {
+		myWalletAddress = await connectWallet();
+		if(myWalletAddress.length > 20){
+			document.getElementById("connect").innerHTML = "Wallet Connected";
+			document.getElementById("connect").disabled = true;
+		}
 	}
+  
 
 /*
   // 블록체인 start
@@ -144,12 +142,20 @@ function SignIn() {
       </Box>
       <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
         {/* blockchain */}
+          {useEffect(() => {
+          if (!APICall) {
+          getMyWallet()
+          }
+          setAPICall(true)
+        })}
+
         <Button
           colorScheme='green'
           onClick={async() => {
             account = await connectWallet();
             if (account && account.length > 20) {
               document.getElementById("connect").innerHTML = "Connected";
+              document.getElementById("connect").disabled = true;
             }
           }}
           id="connect"
