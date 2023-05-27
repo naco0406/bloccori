@@ -3,22 +3,32 @@ import Web3 from "web3";
 import {useState, useEffect} from 'react';
 import { ERC721ABI } from "../config/constants/abi";
 import { ERC721contract } from "../config/constants/contracts";
+import { useCookies } from 'react-cookie';
 
 const web3 = new Web3(window.ethereum);  // 새로운 web3 객체를 만든다
 let ERC721Contract = new web3.eth.Contract(ERC721ABI, ERC721contract);
 let account;
 
+
+const HandleCookie = async () => {
+  const [cookies, setCookie, removeCookie] = useCookies(['connected']);
+  setCookie('connected', true);
+  console.log('cookies.connected');
+  console.log(cookies.connected);
+}
 // 블록체인 start
 export const connectWallet = async () => {
   let accounts = await window.ethereum.request({
       method: "eth_requestAccounts",
   });
 
+  
   account = accounts[0];
   console.log(account);
   const wei = web3.eth.getBalance(accounts[0]);
-  //console.log(wei);
-  process.env.WALLET_CONNECT = true;
+
+  HandleCookie();
+  console.log("connected working");
   return account;
 };
 

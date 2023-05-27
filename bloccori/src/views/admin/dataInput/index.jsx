@@ -60,6 +60,7 @@ import { ERC721ABI } from "../../../config/constants/abi";
 import { ERC721contract } from "../../../config/constants/contracts";
 import { Wallet } from "ethers";
 import WalletConnect from "@walletconnect/client";
+import { useCookies } from 'react-cookie';
 
 function SignIn() {
   // Chakra color mode
@@ -81,13 +82,20 @@ function SignIn() {
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
   let account = '';
+  const [cookies, setCookie, removeCookie] = useCookies(['connected']);
+  const isConnected = cookies.connected;
 
-  // if (window.accountAddress) {
-	// 	account = window.accountAddress;
+  if (isConnected == 'true') {
 		// document.getElementById("connect").innerHTML = "Connected";
-	// 	document.getElementById("connect").disabled = true;
-	// }
-
+		// document.getElementById("connect").disabled = true;
+    console.log('isConnected');
+    console.log(isConnected);
+	} else {
+		// document.getElementById("connect").innerHTML = "Wallet Connect";
+		// document.getElementById("connect").disabled = false;
+    console.log('else');
+    console.log(isConnected);
+	}
 
 /*
   // 블록체인 start
@@ -117,14 +125,6 @@ function SignIn() {
   }
   registerPrice();
 */
-  
-  if (process.env.WALLET_CONNECT) {
-		document.getElementById("connect").innerHTML = "Connected";
-		document.getElementById("connect").disabled = true;
-	} else {
-		document.getElementById("connect").innerHTML = "Wallet Connect";
-		document.getElementById("connect").disabled = false;
-	}
 
   return (
     // <DefaultAuth illustrationBackground={illustration} image={illustration}>
@@ -150,7 +150,6 @@ function SignIn() {
             account = await connectWallet();
             if (account && account.length > 20) {
               document.getElementById("connect").innerHTML = "Connected";
-              document.getElementById("connect").disabled = true;
             }
           }}
           id="connect"
@@ -160,7 +159,7 @@ function SignIn() {
           w='100%'
           h='50'
           mb='24px'>
-          Wallet
+          Wallet Connect
         </Button>
         
         

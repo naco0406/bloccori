@@ -45,14 +45,6 @@ export default function HeaderLinks(props) {
 	const borderButton = useColorModeValue('secondaryGray.500', 'whiteAlpha.200');
 
 	let account = '';
-	if (process.env.WALLET_CONNECT) {
-		document.getElementById("icon_connect").innerHTML = "Connected";
-		document.getElementById("icon_connect").disabled = true;
-	} else {
-		document.getElementById("icon_connect").innerHTML = "Wallet Connect";
-		document.getElementById("icon_connect").disabled = false;
-	}
-
 	return (
 		<Flex
 			w={{ sm: '100%', md: 'auto' }}
@@ -207,7 +199,6 @@ export default function HeaderLinks(props) {
 									account = await connectWallet();
 									if (account && account.length > 20) {
 									document.getElementById("icon_connect").innerHTML = "Connected";
-									document.getElementById("icon_connect").disabled = true;
 									}
 								}}
 								id="icon_connect"
@@ -217,7 +208,7 @@ export default function HeaderLinks(props) {
 								w='100%'
 								h='50'
 								mb='24px'>
-								Wallet
+								Wallet Connect
 							</Button>
 						</MenuItem>
 					</Flex>

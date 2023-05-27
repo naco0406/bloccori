@@ -121,6 +121,9 @@ export default function Overview() {
         }
         console.log("NFTs in collection:", nfts)
         //setNFTs(nfts.nfts)
+      } else {
+        console.log("no nfts")
+        document.getElementById("nftCollection").innerHTML = "No NFTs owned by this address";
       }
       
   }
@@ -275,7 +278,7 @@ export default function Overview() {
           My NFTs
         </Text>
 
-        <Grid>
+        <Grid id='nftCollection'>
           {
             NFTs.length && NFTs.map(nft => {
               

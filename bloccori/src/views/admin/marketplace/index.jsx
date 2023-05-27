@@ -116,10 +116,11 @@ export default function Marketplace() {
       if (nfts) {
         console.log("NFTs in collection:", nfts)
         setNFTs(nfts.nfts)
+      } else {
+        console.log("no nfts")
+        document.getElementById("nftCollection").innerHTML = "No NFTs owned by this address";
       }
   }
-
-  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     
@@ -140,9 +141,15 @@ export default function Marketplace() {
           flexDirection='column'
           gridArea={{ xl: "1 / 1 / 2 / 3", "2xl": "1 / 1 / 2 / 2" }}>
           <Banner />
-          <Flex direction='column'>
+          <Card>
+            <Text
+              fontWeight='bold'
+              textAlign='start'
+              fontSize='xl'>
+              My NFTs
+            </Text>
             
-            <div>
+            <Grid id='nftCollection'>
               {
                 NFTs.length && NFTs.map(nft => {
                   return (
@@ -157,9 +164,9 @@ export default function Marketplace() {
                   )
                 })
               }
-            </div>
+            </Grid>
             
-          </Flex>
+          </Card>
         </Flex>
         <Flex
           flexDirection='column'
@@ -186,35 +193,35 @@ export default function Marketplace() {
             <HistoryItem
               name='JeonSe #931 : Seyeon Park View'
               author='Young Ko'
-              date='83\u33a1'
+              date='83㎡'
               image={Nft5}
               price='680124.78 MATIC'
             />
             <HistoryItem
               name='JeonSe #987 : Detatched House'
               author='Yuri Jo'
-              date='295\u33a1'
+              date='295㎡'
               image={Nft1}
               price='1395127.76 MATIC'
             />
             <HistoryItem
               name='JeonSe #562 : Seyeon Park View'
               author='Byeonguk Lee'
-              date='83\u33a1'
+              date='83㎡'
               image={Nft2}
               price='680124.78 MATIC'
             />
             <HistoryItem
               name='JeonSe #610 : Seyeon Park View'
               author='Seungchan Lee'
-              date='83\u33a1'
+              date='83㎡'
               image={Nft4}
               price='680124.78 MATIC'
             />
             <HistoryItem
               name='JeonSe #953 : The Hill House - Building 102'
               author='Minseo Lim'
-              date='42.56\u33a1'
+              date='42.56㎡'
               image={Nft3}
               price='408946.8 MATIC'
             />

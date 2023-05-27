@@ -8,6 +8,7 @@ import { SidebarContext } from "contexts/SidebarContext";
 import React, { useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "routes.js";
+import { useCookies } from 'react-cookie';
 
 // Custom Chakra theme
 export default function Dashboard(props) {
@@ -111,6 +112,10 @@ export default function Dashboard(props) {
   };
   document.documentElement.dir = "ltr";
   const { onOpen } = useDisclosure();
+
+  const [cookies, setCookie] = useCookies(['connected']);
+  setCookie('connected', false);
+
   return (
     <Box>
       <SidebarContext.Provider
