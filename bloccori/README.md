@@ -1,4 +1,4 @@
-# [Horizon UI ⚡️]
+# [Horizon UI]
 <p>&nbsp;</p>
 
 [<img alt="Horizon UI" src="https://i.ibb.co/fdyTwz1/introduction-image-2.png" /> ](https://github.com/horizon-ui/horizon-ui-chakra)
