@@ -137,12 +137,12 @@ export default function HeaderLinks(props) {
 					maxW={{ base: '360px', md: 'unset' }}>
 					{/* <Image src={navImage} borderRadius="16px" mb="28px" /> */}
 					<Flex flexDirection="column">
-						<Link w="100%" href="/">
+						<Link w="100%">
 							<Button w="100%" h="44px" mb="10px"colorScheme='green' >
 								Null Button
 							</Button>
 						</Link>
-						<Link w="100%" href="/">
+						<Link w="100%">
 							<Button
 								w="100%"
 								h="44px"
@@ -153,7 +153,7 @@ export default function HeaderLinks(props) {
 								Null Button
 							</Button>
 						</Link>
-						<Link w="100%" href="/">
+						<Link w="100%">
 							<Button w="100%" h="44px" variant="no-hover" color={textColor} bg="transparent">
 								CS492
 							</Button>
