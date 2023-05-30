@@ -8,7 +8,7 @@
 
 ---
 
-## Overview
+### Overview
 
 - Project title: Record Real Estate Info on Blockchain for Transparency and Publicity
 - Project type: Option 1. Web3 app prototype
@@ -16,13 +16,13 @@
 - Team members: Jaesung Bae, Seonghyun Yang, Young Co
 - Mentor: Jihoon Suh
 
-## Deliverables
+### Deliverables
 - [Running Web3 app URL](https://naco0406.github.io/bloccori/)
 - [Github Public repo URL](https://github.com/naco0406/bloccori)
 - [Web3 app introduction deck URL](https://icists.cafe24.com/Web3%20presentation%20deck.pdf)
 - [Youtube Video URL](https://youtu.be/vsGLQuQaBCg)
 
-## Summary
+### Summary
 South Korea's real estate system is governed by registries, where rights are officially recorded by lawyers and attorneys in a legal process. However, the current Korean registry is a centralized state agency, with the courts managing the registry for the entire country, and there are several problems.
 
 Problem 1. Issues with the credibility of real estate registers A real estate register is an ownership book for real estate, and since all real estate transactions are managed by the government, it seems to have a lot of public credibility. Therefore, many people think that real estate registers are credible, but South Korea does not recognize the credibility of real estate registers under the Civil Code. 
