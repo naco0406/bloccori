@@ -17,7 +17,7 @@ import { FaEthereum } from "react-icons/fa";
 import TotalSpent from "views/admin/default/components/TotalSpent";
 
 export default function NFT(props) {
-  const { image, name, author, date, price } = props;
+  const { image, name, date, price, jeonse, jeonip, open_door, owner, address, building, transaction, direction, loan } = props;
   // Chakra Color Mode
   const textColor = useColorModeValue("green.900", "white");
   const bgItem = useColorModeValue(
@@ -62,7 +62,7 @@ export default function NFT(props) {
               }}
               fontWeight='400'
               me='14px'>
-              {author}
+              {owner}
             </Text>
           </Flex>
           <Modal isOpen={isOpen} size={'full'}onClose={onClose}>
@@ -84,7 +84,7 @@ export default function NFT(props) {
                       <GridItem colSpan={4}>
                         <Text fontSize='25px' fontWeight='700'>
                           Owner : 
-                          <Text fontSize='20px' fontWeight='400'>{author}</Text>
+                          <Text fontSize='20px' fontWeight='400'>{owner}</Text>
                         </Text>
                       </GridItem>
                       <GridItem colSpan={4}>
@@ -94,6 +94,23 @@ export default function NFT(props) {
                         </Text>
                       </GridItem>
                     </Grid>
+                  </Card>
+                  <Card>
+                    <Text fontSize='25px' fontWeight='700'>Copy of Register</Text>
+                    <Text>Title : {name}</Text>
+                    {/* <Text>Owner : {author}</Text> */}
+                    <Text>Owner Address : {owner}</Text>
+                    <Text>Price : {price}</Text>
+                    <Text>Total Area : {date}</Text>
+                    <Text>Address : {address}</Text>
+                    <Text>Jeonse Address : {jeonse}</Text>
+                    <Text>Jeonip Address : {jeonip}</Text>
+                    <Text>Open Door Time : {open_door}</Text>
+                    <Text>Building Type : {building}</Text>
+                    <Text>Transaction Type : {transaction}</Text>
+                    <Text>Direction : {direction}</Text>
+                    <Text>Loan : {loan}</Text>
+                    
                   </Card>
                   
                   <TotalSpent

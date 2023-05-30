@@ -54,7 +54,7 @@ export default function HeaderLinks(props) {
 		myWalletAddress = await connectWallet();
 		if(myWalletAddress.length > 20){
 			document.getElementById("icon_connect").innerHTML = "Wallet Connected";
-			document.getElementById("icon_connect").disabled = true;
+			// document.getElementById("icon_connect").disabled = true;
 		}
 	}
 	return (

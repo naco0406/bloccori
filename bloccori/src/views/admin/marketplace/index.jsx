@@ -50,6 +50,10 @@ import NFT from "components/card/NFT";
 import Card from "components/card/Card.js";
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 
+import { getPriceOf, connectWallet, getOwnerOf, getJeonseOf, getJeonipOf, get_open_door } from "../../../blockchaincontroller/blockcontrol";
+
+import Loading from 'views/admin/profile/Loading';
+
 // Assets
 import Nft1 from "assets/img/nfts/Nft1.png";
 import Nft2 from "assets/img/nfts/Nft2.png";
@@ -74,6 +78,8 @@ export default function Marketplace() {
   const [NFTs, setNFTs] = useState([])
   const [fetchForCollection, setFetchForCollection]=useState(false)
   const [APICall, setAPICall] = useState(false);
+  
+  const [loading, setLoading] = useState(true);
   
 
   // const fetchNFTs = async() => {
@@ -103,23 +109,57 @@ export default function Marketplace() {
   //     setNFTs(nfts.ownedNfts)
   //   }
   // }
+  function Unix_timestamp(t){
+    var date = new Date(t*1000);
+    var year = date.getFullYear();
+    var month = "0" + (date.getMonth()+1);
+    var day = "0" + date.getDate();
+    var hour = "0" + date.getHours();
+    var minute = "0" + date.getMinutes();
+    var second = "0" + date.getSeconds();
+    return year + "-" + month.substr(-2) + "-" + day.substr(-2) + " " + hour.substr(-2) + ":" + minute.substr(-2) + ":" + second.substr(-2);
+  }
 
   const fetchNFTsForCollection = async () => {
+    setLoading(true);
       var requestOptions = {
         method: 'GET'
       };
       const api_key = "rygC0xsI-P_GcTM-KHaoWoPfX_d4R66y"
-      const collection = "0xDBcA65E7B262fFD6e56a46E2f708D3b7a3bdc5bF"
+      const collection = "0xA38A6A7A72F18BA7a43B128c5C115A7904fbb0c4"
       const baseURL = `https://polygon-mainnet.g.alchemy.com/v2/${api_key}/getNFTsForCollection/`;
       const fetchURL = `${baseURL}?contractAddress=${collection}&withMetadata=${"true"}`;
       const nfts = await fetch(fetchURL, requestOptions).then(data => data.json())
       if (nfts) {
+        for (let i = 0; i < nfts.nfts.length; i++) {
+          const nft = nfts.nfts[i]
+          let owner = await getOwnerOf(nft.id.tokenId);
+          let price = await getPriceOf(nft.id.tokenId);
+          let jeonse = await getJeonseOf(nft.id.tokenId);
+          let jeonip = await getJeonipOf(nft.id.tokenId);
+          let open_door = await get_open_door(nft.id.tokenId);
+          let ownerString = owner.toString().toLowerCase();
+          console.log(nft.id.tokenId);
+          console.log(price);
+          if(price != 0) {
+            nft.metadata.price = price.toString() + " MATIC";
+          } 
+
+          nft.jeonse = jeonse;
+          nft.jeonip = jeonip;
+          nft.open_door = Unix_timestamp(open_door);
+          nft.owner = ownerString;
+
+          // console.log(nft.metadata.price);
+        }
+        
         console.log("NFTs in collection:", nfts)
         setNFTs(nfts.nfts)
       } else {
         console.log("no nfts")
         document.getElementById("nftCollection").innerHTML = "No NFTs owned by this address";
       }
+      setLoading(false);
   }
 
   return (
@@ -146,19 +186,28 @@ export default function Marketplace() {
               fontWeight='bold'
               textAlign='start'
               fontSize='xl'>
-              My NFTs
+              NFT List
             </Text>
-            
+            {loading ? <Loading /> : null}
             <Grid id='nftCollection'>
               {
                 NFTs.length && NFTs.map(nft => {
                   return (
                     <HistoryItem
                       name={nft.title}
-                      author={nft.metadata.owner}
+                      // author={nft.metadata.owner}
                       date={nft.metadata.attributes[2].value}
                       image={nft.media[0].gateway}
                       price={nft.metadata.price}
+                      jeonse={nft.jeonse}
+                      jeonip={nft.jeonip}
+                      open_door={nft.open_door}
+                      owner={nft.owner}
+                      address={nft.metadata.address}
+                      building={nft.metadata.attributes[0].value}
+                      transaction={nft.metadata.attributes[1].value}
+                      direction={nft.metadata.attributes[5].value}
+                      loan={nft.metadata.attributes[6].value}
                     />
                   
                   )
@@ -185,7 +234,7 @@ export default function Marketplace() {
               px='22px'
               py='18px'>
               <Text color={textColor} fontSize='xl' fontWeight='600'>
-                History
+                Recent transactions
               </Text>
               <Button colorScheme='green'>See all</Button>
             </Flex>

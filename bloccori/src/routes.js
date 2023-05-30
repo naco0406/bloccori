@@ -23,10 +23,10 @@ import DataInput from "views/admin/dataInput";
 
 const routes = [
   {
-    name: "Profile",
+    name: "Dashboard",
     layout: "/admin",
     path: "/profile",
-    icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
+    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
     component: Profile,
   },
   {

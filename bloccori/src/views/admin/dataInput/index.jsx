@@ -90,7 +90,7 @@ function SignIn() {
 		myWalletAddress = await connectWallet();
 		if(myWalletAddress.length > 20){
 			document.getElementById("connect").innerHTML = "Wallet Connected";
-			document.getElementById("connect").disabled = true;
+			// document.getElementById("connect").disabled = true;
 		}
 	}
   
@@ -195,7 +195,9 @@ function SignIn() {
               
               <Button
                 colorScheme='green'
-                onClick={() => {safeMint(account, document.getElementById('mintNum').value);
+                onClick={async() => {
+                  account = await connectWallet();
+                  safeMint(account, document.getElementById('mintNum').value);
                   console.log(account);
                   console.log(document.getElementById('mintNum').value);}}
                 fontSize='sm'
@@ -246,7 +248,9 @@ function SignIn() {
               
               <Button
                 colorScheme='green'
-                onClick={() => {registerPrice(document.getElementById('rpTokenId').value, document.getElementById('rpPrice').value)}}
+                onClick={async() => {
+                  account = await connectWallet();
+                  registerPrice(document.getElementById('rpTokenId').value, document.getElementById('rpPrice').value)}}
                 fontSize='sm'
                 // variant='green'
                 fontWeight='500'
@@ -298,7 +302,9 @@ function SignIn() {
               
               <Button
                 colorScheme='green'
-                onClick={() => {registerJeonse(document.getElementById('rjTokenId').value, document.getElementById('rjAddress').value);console.log(document.getElementById('rjTokenId').value); console.log(document.getElementById('rjAddress').value);}}
+                onClick={async() => {
+                  account = await connectWallet();
+                  registerJeonse(document.getElementById('rjTokenId').value, document.getElementById('rjAddress').value);console.log(document.getElementById('rjTokenId').value); console.log(document.getElementById('rjAddress').value);}}
                 fontSize='sm'
                 // variant='green'
                 fontWeight='500'
@@ -347,7 +353,9 @@ function SignIn() {
               
               <Button
                 colorScheme='green'
-                onClick={() => {registerJeonip(document.getElementById('rjiTokenId').value, document.getElementById('rjiAddress').value);
+                onClick={async() => {
+                  account = await connectWallet();
+                  registerJeonip(document.getElementById('rjiTokenId').value, document.getElementById('rjiAddress').value);
                 console.log(document.getElementById('rjiTokenId').value);
                 console.log(document.getElementById('rjiAddress').value);}}
                 fontSize='sm'
@@ -398,7 +406,9 @@ function SignIn() {
               
               <Button
                 colorScheme='green'
-                onClick={() => {setOpenDoor(document.getElementById('sodTokenId').value, document.getElementById('sodTime').value);}
+                onClick={async() => {
+                  account = await connectWallet();
+                  setOpenDoor(document.getElementById('sodTokenId').value, document.getElementById('sodTime').value);}
                   }
                 fontSize='sm'
                 // variant='green'

@@ -6,7 +6,9 @@ import { ERC721contract } from "../config/constants/contracts";
 import { useCookies } from 'react-cookie';
 
 const web3 = new Web3(window.ethereum);  // 새로운 web3 객체를 만든다
+const web3_alchemy = new Web3(new Web3.providers.HttpProvider("https://polygon-mainnet.g.alchemy.com/v2/rygC0xsI-P_GcTM-KHaoWoPfX_d4R66y"));
 let ERC721Contract = new web3.eth.Contract(ERC721ABI, ERC721contract);
+let ERC721Contract_alchemy = new web3_alchemy.eth.Contract(ERC721ABI, ERC721contract);
 let account;
 
 
@@ -46,27 +48,27 @@ export const safeMint = async (addr, num) => {
 }
 
 export const getPriceOf = async (tokenId) => {
-  const res = await ERC721Contract.methods.priceOf(tokenId).call();
+  const res = await ERC721Contract_alchemy.methods.priceOf(tokenId).call();
   return res
 }
 
 export const getJeonseOf = async (tokenId) => {
-  const res = await ERC721Contract.methods.jeonseOf(tokenId).call();
+  const res = await ERC721Contract_alchemy.methods.jeonseOf(tokenId).call();
   return res
 }
 
 export const getJeonipOf = async (tokenId) => {
-  const res = await ERC721Contract.methods.jeonipOf(tokenId).call();
+  const res = await ERC721Contract_alchemy.methods.jeonipOf(tokenId).call();
   return res
 }
 
 export const get_open_door = async (tokenId) => {
-  const res = await ERC721Contract.methods.get_open_door(tokenId).call();
+  const res = await ERC721Contract_alchemy.methods.get_open_door(tokenId).call();
   return res
 }
 
 export const getOwnerOf = async (tokenId) => {
-  const res = await ERC721Contract.methods.ownerOf(tokenId).call();
+  const res = await ERC721Contract_alchemy.methods.ownerOf(tokenId).call();
   return res
 }
 /* 사용법

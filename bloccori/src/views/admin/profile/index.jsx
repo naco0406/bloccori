@@ -57,12 +57,14 @@ import banner from "assets/img/auth/banner.png";
 import avatar from "assets/img/avatars/avatar4.png";
 import HistoryItem from "views/admin/marketplace/components/HistoryItem";
 import React, { useEffect, useState } from "react";
-import { getOwnerOf, connectWallet } from "../../../blockchaincontroller/blockcontrol";
+import { getOwnerOf, connectWallet, getPriceOf, getJeonseOf, getJeonipOf, get_open_door } from "../../../blockchaincontroller/blockcontrol";
 
 import MiniStatistics from "components/card/MiniStatistics";
 import PieCard from "views/admin/default/components/PieCard";
 import Card from "components/card/Card.js";
 import Matic from "assets/img/dashboards/matic.png";
+
+import Loading from 'views/admin/profile/Loading';
 
 import {
   MdAddTask,
@@ -85,14 +87,28 @@ export default function Overview() {
 
   const [NFTs, setNFTs] = useState([])
   const [APICall, setAPICall] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  function Unix_timestamp(t){
+    var date = new Date(t*1000);
+    var year = date.getFullYear();
+    var month = "0" + (date.getMonth()+1);
+    var day = "0" + date.getDate();
+    var hour = "0" + date.getHours();
+    var minute = "0" + date.getMinutes();
+    var second = "0" + date.getSeconds();
+    return year + "-" + month.substr(-2) + "-" + day.substr(-2) + " " + hour.substr(-2) + ":" + minute.substr(-2) + ":" + second.substr(-2);
+  }
+  
   const fetchNFTsForCollection = async () => {
+      setLoading(true);
       let myWalletAddress;
       myWalletAddress = await connectWallet();
       var requestOptions = {
         method: 'GET'
       };
       const api_key = "rygC0xsI-P_GcTM-KHaoWoPfX_d4R66y"
-      const collection = "0xDBcA65E7B262fFD6e56a46E2f708D3b7a3bdc5bF"
+      const collection = "0xA38A6A7A72F18BA7a43B128c5C115A7904fbb0c4"
       const baseURL = `https://polygon-mainnet.g.alchemy.com/v2/${api_key}/getNFTsForCollection/`;
       const fetchURL = `${baseURL}?contractAddress=${collection}&withMetadata=${"true"}`;
       const nfts = await fetch(fetchURL, requestOptions).then(data => data.json())
@@ -111,6 +127,23 @@ export default function Overview() {
           console.log(typeof myWalletAddress);
           console.log(ownerString);
           console.log(myWalletAddressString);
+          
+          let price = await getPriceOf(nft.id.tokenId);
+          console.log(nft.id.tokenId);
+          console.log(price);
+          if(price != 0) {
+            nft.metadata.price = price.toString() + " MATIC";
+          } 
+
+          let jeonse = await getJeonseOf(nft.id.tokenId);
+          let jeonip = await getJeonipOf(nft.id.tokenId);
+          let open_door = await get_open_door(nft.id.tokenId);
+          nft.jeonse = jeonse;
+          nft.jeonip = jeonip;
+          nft.open_door = Unix_timestamp(open_door);
+          nft.owner = ownerString;
+
+
           if (ownerString == myWalletAddressString) {
             console.log("succ");
             setNFTs(NFTs => [...NFTs, nft]);
@@ -125,6 +158,7 @@ export default function Overview() {
         console.log("no nfts")
         document.getElementById("nftCollection").innerHTML = "No NFTs owned by this address";
       }
+      setLoading(false);
       
   }
   let myWalletAddress = '';
@@ -277,21 +311,32 @@ export default function Overview() {
           fontSize='xl'>
           My NFTs
         </Text>
-
+        {loading ? <Loading /> : null}
         <Grid id='nftCollection'>
           {
             NFTs.length && NFTs.map(nft => {
               
               console.log("haha");
               console.log(nft.id.tokenId);
+              
 
               return (
+                
                 <HistoryItem
                   name={nft.title}
-                  author={nft.metadata.owner}
+                  // author={nft.metadata.owner}
                   date={nft.metadata.attributes[2].value}
                   image={nft.media[0].gateway}
                   price={nft.metadata.price}
+                  jeonse={nft.jeonse}
+                  jeonip={nft.jeonip}
+                  open_door={nft.open_door}
+                  owner={nft.owner}
+                  address={nft.metadata.address}
+                  building={nft.metadata.attributes[0].value}
+                  transaction={nft.metadata.attributes[1].value}
+                  direction={nft.metadata.attributes[5].value}
+                  loan={nft.metadata.attributes[6].value}
                 />
               )
               
